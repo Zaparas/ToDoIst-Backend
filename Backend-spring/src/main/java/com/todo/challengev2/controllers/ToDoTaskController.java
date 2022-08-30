@@ -3,6 +3,7 @@ package com.todo.challengev2.controllers;
 import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.serviceimpl.ToDoTaskServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,8 @@ public class ToDoTaskController {
     public final ToDoTaskServiceImpl taskService;
 
     //@TODO: CORS cross origin resource sharing - should be set to allow on the server side
-    @GetMapping
+    //is now allowed on the server side see SecurityConfigurer
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ToDoTask> getAllTasks(){ // @TODO: return in json format for Rest Service , not MVC or Thymeleaf
         return taskService.getAllTasks();
     }
