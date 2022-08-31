@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ToDoTaskRepository extends CrudRepository<ToDoTask, UUID> {
-
-    @Override
-    List<ToDoTask> findAll();
+public interface ToDoTaskRepository extends JpaRepository<ToDoTask, UUID> {
 
 }
