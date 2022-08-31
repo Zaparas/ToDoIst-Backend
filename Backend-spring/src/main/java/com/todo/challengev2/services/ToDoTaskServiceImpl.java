@@ -1,4 +1,4 @@
-package com.todo.challengev2.serviceimpl;
+package com.todo.challengev2.services;
 
 import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.repositories.ToDoTaskRepository;

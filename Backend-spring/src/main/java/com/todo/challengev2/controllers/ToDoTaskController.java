@@ -1,17 +1,14 @@
 package com.todo.challengev2.controllers;
 
 import com.todo.challengev2.domain.ToDoTask;
-import com.todo.challengev2.serviceimpl.ToDoTaskServiceImpl;
+import com.todo.challengev2.services.ToDoTaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping("/tasks")
 @RestController
