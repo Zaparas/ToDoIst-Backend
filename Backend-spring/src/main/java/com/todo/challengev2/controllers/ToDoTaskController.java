@@ -37,22 +37,4 @@ public class ToDoTaskController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void deleteTask(@PathVariable UUID id){ taskService.deleteTask(id); }
-
-//    @RequestMapping({"/view/{uuid}"})
-////    public void viewTask(@PathVariable UUID uuid){
-////        taskService.getById(uuid);
-////    }
-//
-//      @RequestMapping({"/get/{uuid}"})
-////    public void viewTask(@PathVariable UUID uuid){ get (TD-Persistant / convert TD-rest / return TD-rest)
-////        taskService.getById(uuid);
-////    }
-//
-//
-//    @RequestMapping({"/delete/{uuid}"})
-//    public void deleteTask(@PathVariable UUID uuid){
-//        taskService.deleteTask(uuid);
-//    }
-
-
 }
