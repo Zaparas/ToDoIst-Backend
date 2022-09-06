@@ -1,9 +1,10 @@
 package com.todo.challengev2.domain;
 
+import com.todo.challengev2.config.util.PriorityType;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -13,29 +14,21 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
 public class ToDoTask {
 
-    //Enum:
-    public enum PriorityType {
-        LOW,
-        MID,
-        HIGH,
-        TOP
-    };
 
     // Variables:
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //@TODO: convert to string
     private UUID id;
     private String name;
-    private LocalDateTime dueDate; //@TODO: switch to LocalDate
+    private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
     private PriorityType priority;
 
-    public ToDoTask(String name, LocalDateTime dueDate, PriorityType priority) {
+    public ToDoTask(String name, LocalDate dueDate, PriorityType priority) {
         this.name = name;
         this.dueDate = dueDate;
         this.priority = priority;
