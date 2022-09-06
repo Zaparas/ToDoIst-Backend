@@ -1,13 +1,14 @@
 package com.todo.challengev2.services;
 
 import com.todo.challengev2.domain.ToDoTask;
+import com.todo.challengev2.dto.ToDoTaskDTO;
 import com.todo.challengev2.repositories.ToDoTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +18,9 @@ import java.util.UUID;
 public class ToDoTaskServiceImpl implements ToDoTaskService {
 
     private final ToDoTaskRepository repository;
+
+    @Override
+    public ToDoTaskDTO ConvertToDTo(ToDoTask task){ return new ToDoTaskDTO(task); }
 
     @Override
     public void createTask(ToDoTask task) {
@@ -42,17 +46,21 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     @Override
-    public List<ToDoTask> getAllTasks() {
-
-        return repository.findAll();
+    public List<ToDoTaskDTO> getAllTasks() {
+        List<ToDoTaskDTO> list = new ArrayList<>();
+        for (ToDoTask task : repository.findAll()) {
+            list.add(new ToDoTaskDTO(task));
+        }
+        return list;
     }
 
     @Override
-    public ToDoTask getById(UUID id){
+    public ToDoTask getById(UUID id) {
         Optional<ToDoTask> optional = repository.findById(id);
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
-        return repository.findById(id).get();
+
+           return repository.findById(id).get();
     }
 }
