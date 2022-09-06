@@ -13,7 +13,7 @@ public class RestServiceConfiguration {
 
     @Value("${todo-app.cors.enabled:false}")
     private boolean corsEnabled;
-    @Value("${todo-app.cors.allowed-origins:}")
+    @Value("http://localhost:4200")
     private List<String> corsAllowedOrigins = new ArrayList<>();
     @Value("${todo-app.cors.allowed-headers:}")
     private List<String> corsAllowedHeaders = new ArrayList<>();

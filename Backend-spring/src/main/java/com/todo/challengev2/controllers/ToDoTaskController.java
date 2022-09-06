@@ -4,7 +4,9 @@ import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.dto.ToDoTaskDTO;
 import com.todo.challengev2.services.ToDoTaskServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.UUID;
 @RequestMapping("/tasks")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ToDoTaskController {
 
     public final ToDoTaskServiceImpl taskService;
@@ -25,8 +28,14 @@ public class ToDoTaskController {
     }
 
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public ToDoTask getTask(@PathVariable UUID id){
+        log.info("Parameter: " + id);
+        for (ToDoTaskDTO task : taskService.getAllTasks()) {
+            if (task.getId().equals(id)) {
+                log.info(String.valueOf(task.getId()));
+            }
+        }
         return taskService.getById(id);
     }
 
