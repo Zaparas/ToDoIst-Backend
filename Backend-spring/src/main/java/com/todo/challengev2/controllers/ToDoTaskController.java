@@ -27,16 +27,20 @@ public class ToDoTaskController {
         return taskService.getAllTasks();
     }
 
-
     @GetMapping("/{id}")
     public ToDoTask getTask(@PathVariable UUID id){ return taskService.getById(id); }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void newTask(@RequestBody ToDoTask task){ taskService.createTask(task); }
+    public void newTask(@RequestBody ToDoTaskDTO task){ taskService.createTask(task); }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateTask(@RequestBody ToDoTask task, @PathVariable UUID id){ taskService.updateTask(task,id); }
+    public void updateTask(@RequestBody ToDoTaskDTO task){ taskService.createTask(task); }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void deleteTask(@PathVariable UUID id){ taskService.deleteTask(id); }
+
+    @PostMapping("/save")
+    public ToDoTaskDTO save(@RequestBody ToDoTaskDTO toDoTaskDTO) {
+        return taskService.save(toDoTaskDTO);
+    }
 }
