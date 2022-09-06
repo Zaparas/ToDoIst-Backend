@@ -29,15 +29,7 @@ public class ToDoTaskController {
 
 
     @GetMapping("/{id}")
-    public ToDoTask getTask(@PathVariable UUID id){
-        log.info("Parameter: " + id);
-        for (ToDoTaskDTO task : taskService.getAllTasks()) {
-            if (task.getId().equals(id)) {
-                log.info(String.valueOf(task.getId()));
-            }
-        }
-        return taskService.getById(id);
-    }
+    public ToDoTask getTask(@PathVariable UUID id){ return taskService.getById(id); }
 
     @RequestMapping(method = RequestMethod.POST)
     public void newTask(@RequestBody ToDoTask task){ taskService.createTask(task); }

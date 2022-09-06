@@ -2,6 +2,7 @@ package com.todo.challengev2.domain;
 
 import com.todo.challengev2.config.util.PriorityType;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class ToDoTask {
     // Variables:
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //@TODO: convert to string
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     private String name;
     private LocalDate dueDate;
