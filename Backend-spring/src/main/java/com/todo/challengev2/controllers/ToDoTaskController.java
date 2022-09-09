@@ -2,15 +2,20 @@ package com.todo.challengev2.controllers;
 
 import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.dto.ToDoTaskDTO;
+import com.todo.challengev2.model.ToDoTaskModelAssembler;
 import com.todo.challengev2.services.ToDoTaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.scheduling.config.Task;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/tasks")
 @RestController
@@ -19,13 +24,14 @@ import java.util.UUID;
 public class ToDoTaskController {
 
     public final ToDoTaskServiceImpl taskService;
+    private final ToDoTaskModelAssembler toDoTaskModelAssembler;
 
     //@TODO: CORS cross origin resource sharing - should be set to allow on the server side
     //is now allowed on the server side see SecurityConfigurer
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ToDoTaskDTO> getAllTasks() {
-        return taskService.getAllTasks();
-    }
+//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<ToDoTaskDTO> getAllTasks() {
+//        return taskService.getAllTasks();
+//    }
 
 
     @GetMapping("/{id}")
@@ -39,4 +45,16 @@ public class ToDoTaskController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public void deleteTask(@PathVariable UUID id){ taskService.deleteTask(id); }
+
+    /** Controllers with Models */
+
+    @GetMapping
+    public CollectionModel<EntityModel<ToDoTaskDTO>> getAllTasks() {
+        List<EntityModel<ToDoTaskDTO>> tasks = taskService.getAllTasks().stream()
+                .map(toDoTaskModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(tasks,
+                linkTo(methodOn(ToDoTaskController.class).getAllTasks()).withSelfRel());
+    }
 }
