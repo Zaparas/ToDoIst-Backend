@@ -34,8 +34,8 @@ public class ToDoTaskController {
 //    }
 
 
-    @GetMapping("/{id}")
-    public ToDoTask getTask(@PathVariable UUID id){ return taskService.getById(id); }
+//    @GetMapping("/{id}")
+//    public ToDoTask getTask(@PathVariable UUID id){ return taskService.getById(id); }
 
     @RequestMapping(method = RequestMethod.POST)
     public void newTask(@RequestBody ToDoTask task){ taskService.createTask(task); }
@@ -56,5 +56,11 @@ public class ToDoTaskController {
 
         return CollectionModel.of(tasks,
                 linkTo(methodOn(ToDoTaskController.class).getAllTasks()).withSelfRel());
+    }
+
+    @GetMapping("/{id}")
+    public EntityModel<ToDoTaskDTO> getTask(@PathVariable UUID id) {
+        ToDoTaskDTO task = new ToDoTaskDTO(taskService.getById(id));
+        return toDoTaskModelAssembler.toModel(task);
     }
 }
