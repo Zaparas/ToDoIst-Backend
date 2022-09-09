@@ -1,9 +1,12 @@
 package com.todo.challengev2.services;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.dto.ToDoTaskDTO;
 import com.todo.challengev2.repositories.ToDoTaskRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,26 +26,24 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     public ToDoTaskDTO ConvertToDTo(ToDoTask task){ return new ToDoTaskDTO(task); }
 
     @Override
-    public void createTask(ToDoTask task) {
-        repository.save(task);
+    public ToDoTask convertToEntity(ToDoTaskDTO toDoTaskDTO) {
+        ToDoTask task = new ToDoTask();
+        BeanUtils.copyProperties(toDoTaskDTO, task);
+        return task;
     }
 
     @Override
-    public void updateTask(ToDoTask task, UUID id) {
+    public ToDoTaskDTO createTask(ToDoTaskDTO task) {
+        ToDoTask entity = convertToEntity(task);
+        ToDoTask savedEntity = repository.save(entity);
+        return new ToDoTaskDTO(repository.save(convertToEntity(task)));
+    }
 
+    @Override
+    public ToDoTaskDTO updateTask(ToDoTaskDTO newTask, UUID id) throws RuntimeException {
         ToDoTask target = repository.findById(id).orElse(null);
-        if(target!=null) {
-            target.setDueDate(task.getDueDate());
-            target.setName(task.getName());
-            target.setPriority(task.getPriority());
-            repository.save(target);
-        }
-
-    }
-
-    @Override
-    public void deleteTask(UUID id) {
-        repository.deleteById(id);
+        BeanUtils.copyProperties(newTask, target);
+        return new ToDoTaskDTO(repository.save(convertToEntity(newTask)));
     }
 
     @Override
@@ -61,6 +62,15 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
 
-           return repository.findById(id).get();
+       return repository.findById(id).get();
     }
+
+    @Override
+    public void deleteTask(UUID id){
+        if (getById(id) == null) {
+            throw new RuntimeException("Did not found task with id: " + id);
+        }
+        repository.deleteById(id);
+    }
+
 }

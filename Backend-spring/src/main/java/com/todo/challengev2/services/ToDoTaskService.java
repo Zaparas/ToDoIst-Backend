@@ -9,8 +9,9 @@ public interface ToDoTaskService {
 
     ToDoTaskDTO ConvertToDTo(ToDoTask task);
 
-    void createTask(ToDoTask task);
-    void updateTask(ToDoTask task, UUID id);
+    ToDoTask convertToEntity(ToDoTaskDTO toDoTaskDTO);
+    ToDoTaskDTO createTask(ToDoTaskDTO task);
+    ToDoTaskDTO updateTask(ToDoTaskDTO task, UUID id);
     void deleteTask(UUID id);
     Collection<ToDoTaskDTO> getAllTasks();
     ToDoTask getById(UUID id);
