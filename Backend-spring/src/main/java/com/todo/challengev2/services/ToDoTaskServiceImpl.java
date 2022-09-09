@@ -1,10 +1,12 @@
 package com.todo.challengev2.services;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.dto.ToDoTaskDTO;
 import com.todo.challengev2.repositories.ToDoTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,30 +23,27 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     private final ToDoTaskRepository repository;
 
     @Override
-    public ToDoTask dtoToEntity(ToDoTaskDTO task){
-        ToDoTask toDoTask = new ToDoTask();
-        BeanUtils.copyProperties(task, toDoTask);
-        return toDoTask;
+    public ToDoTaskDTO ConvertToDTo(ToDoTask task){ return new ToDoTaskDTO(task); }
+
+    @Override
+    public ToDoTask convertToEntity(ToDoTaskDTO toDoTaskDTO) {
+        ToDoTask task = new ToDoTask();
+        BeanUtils.copyProperties(toDoTaskDTO, task);
+        return task;
     }
 
     @Override
-    public void createTask(ToDoTaskDTO task) {repository.save(dtoToEntity(task));}
-
-    @Override
-    public void updateTask(ToDoTaskDTO task) {
-        ToDoTask target = repository.findById(task.getId()).orElse(null);
-        if(target!=null) {
-            target.setDueDate(task.getDueDate());
-            target.setName(task.getName());
-            target.setPriority(task.getPriority());
-            repository.save(target);
-        }
-        repository.save(dtoToEntity(task));
+    public ToDoTaskDTO createTask(ToDoTaskDTO task) {
+        ToDoTask entity = convertToEntity(task);
+        ToDoTask savedEntity = repository.save(entity);
+        return new ToDoTaskDTO(repository.save(convertToEntity(task)));
     }
 
     @Override
-    public void deleteTask(UUID id) {
-        repository.deleteById(id);
+    public ToDoTaskDTO updateTask(ToDoTaskDTO newTask, UUID id) throws RuntimeException {
+        ToDoTask target = repository.findById(id).orElse(null);
+        BeanUtils.copyProperties(newTask, target);
+        return new ToDoTaskDTO(repository.save(convertToEntity(newTask)));
     }
 
     @Override
@@ -63,11 +62,15 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
 
-           return repository.findById(id).get();
+       return repository.findById(id).get();
     }
 
     @Override
-    public ToDoTaskDTO save(ToDoTaskDTO toDoTaskDTO) {
-        return new ToDoTaskDTO(repository.save(dtoToEntity(toDoTaskDTO)));
+    public void deleteTask(UUID id){
+        if (getById(id) == null) {
+            throw new RuntimeException("Did not found task with id: " + id);
+        }
+        repository.deleteById(id);
     }
+
 }

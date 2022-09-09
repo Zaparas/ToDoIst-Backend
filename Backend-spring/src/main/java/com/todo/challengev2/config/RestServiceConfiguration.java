@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class RestServiceConfiguration {
 
-    @Value("${todo-app.cors.enabled:false}")
+    @Value("${todo-app.cors.enabled:true}")
     private boolean corsEnabled;
     @Value("http://localhost:4200")
     private List<String> corsAllowedOrigins = new ArrayList<>();

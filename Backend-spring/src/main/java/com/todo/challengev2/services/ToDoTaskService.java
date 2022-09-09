@@ -7,18 +7,12 @@ import java.util.*;
 
 public interface ToDoTaskService {
 
-    ToDoTask dtoToEntity(ToDoTaskDTO task);
+    ToDoTaskDTO ConvertToDTo(ToDoTask task);
 
-    void createTask(ToDoTaskDTO task);
-
-    void updateTask(ToDoTaskDTO task);
-
+    ToDoTask convertToEntity(ToDoTaskDTO toDoTaskDTO);
+    ToDoTaskDTO createTask(ToDoTaskDTO task);
+    ToDoTaskDTO updateTask(ToDoTaskDTO task, UUID id);
     void deleteTask(UUID id);
-
     Collection<ToDoTaskDTO> getAllTasks();
-
     ToDoTask getById(UUID id);
-
-    /** Εναλλακτική μέθοδος για να κάνει save και update */
-    ToDoTaskDTO save(ToDoTaskDTO toDoTaskDTO);
 }
