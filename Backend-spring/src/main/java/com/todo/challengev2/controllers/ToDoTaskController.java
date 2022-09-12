@@ -4,8 +4,13 @@ import com.todo.challengev2.domain.ToDoTask;
 import com.todo.challengev2.dto.ToDoTaskDTO;
 import com.todo.challengev2.model.ToDoTaskModelAssembler;
 import com.todo.challengev2.services.ToDoTaskServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Response;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -35,6 +40,10 @@ public class ToDoTaskController {
 
     /** Controllers with Models */
 
+    @Operation( summary = "Fetches all tasks currently stored and accessible in the database.", tags = {"Tasks","GetAll"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The Tasks have been fetched", content = {@Content(mediaType = "ListOfAllTasks/json")}) //TODO: research media-type & json name importance?
+    })
     @GetMapping
     public CollectionModel<EntityModel<ToDoTaskDTO>> getAllTasks() {
         List<EntityModel<ToDoTaskDTO>> tasks = taskService.getAllTasks().stream()
@@ -46,12 +55,22 @@ public class ToDoTaskController {
 
     }
 
+    @Operation( summary = "Fetches a specific task via ID - UUID", tags = {"Tasks","GetBy"})
+    @ApiResponses({
+            @ApiResponse(description = "Got a specific Task using this id as a reference point", responseCode = "200", content = @Content(mediaType = "task/json")),
+            @ApiResponse(description = "Did not find any Task using this id as a reference point or invalid ID", responseCode = "404", content = @Content)
+    })
     @GetMapping("/{id}")
     public EntityModel<ToDoTaskDTO> getTask(@PathVariable UUID id) {
         ToDoTaskDTO task = new ToDoTaskDTO(taskService.getById(id));
         return toDoTaskModelAssembler.toModel(task);
     }
 
+
+    @Operation(summary = "Stores a new task in the database", tags = {"Tasks","Create"})
+    @ApiResponses({
+            @ApiResponse(description = "Created a new Task", responseCode = "201", content = @Content(mediaType = "link"))
+    })
     @PostMapping()
     public ResponseEntity<EntityModel<ToDoTaskDTO>> createTask(@RequestBody ToDoTaskDTO task) {
         EntityModel<ToDoTaskDTO> entityModel = toDoTaskModelAssembler.toModel(taskService.createTask(task));
@@ -60,6 +79,12 @@ public class ToDoTaskController {
                 .body(entityModel);
     }
 
+    @Operation(summary = "Update the fields of an existing Task", tags = {"Tasks","Update"})
+    @ApiResponses({
+            @ApiResponse(description = "updated an existing Task", responseCode = "200", content = @Content)
+            ,@ApiResponse(description = "task to update not found", responseCode = "404", content = @Content)
+            //,@ApiResponse(description = "no content", responseCode = "204", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTask(@RequestBody ToDoTaskDTO newTask, @PathVariable UUID id) {
         try {
@@ -74,7 +99,12 @@ public class ToDoTaskController {
         }
     }
 
-    // Convert void to ResponseEntity<?>, to return status code
+    // TODO: Convert void to ResponseEntity<?>, to return status code
+    @Operation(summary = "delete an existing Task", tags = {"Tasks","delete"})
+    @ApiResponses({
+            @ApiResponse(description = "delete a Task", responseCode = "200", content = @Content)
+            ,@ApiResponse(description = "task to delete not found or invalid ID", responseCode = "404", content = @Content)
+     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable UUID id) {
         try {
