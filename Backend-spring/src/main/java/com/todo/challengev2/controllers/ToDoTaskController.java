@@ -1,7 +1,7 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.domain.ToDoTask;
-import com.todo.challengev2.dto.ToDoTaskDTO;
+import com.todo.challengev2.dto.ToDoTaskInputDTO;
+import com.todo.challengev2.dto.ToDoTaskOutputDTO;
 import com.todo.challengev2.model.ToDoTaskModelAssembler;
 import com.todo.challengev2.services.ToDoTaskServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,8 @@ public class ToDoTaskController {
     /** Controllers with Models */
 
     @GetMapping
-    public CollectionModel<EntityModel<ToDoTaskDTO>> getAllTasks() {
-        List<EntityModel<ToDoTaskDTO>> tasks = taskService.getAllTasks().stream()
+    public CollectionModel<EntityModel<ToDoTaskOutputDTO>> getAllTasks() {
+        List<EntityModel<ToDoTaskOutputDTO>> tasks = taskService.getAllTasks().stream()
                 .map(toDoTaskModelAssembler::toModel)
                 .collect(Collectors.toList());
 
@@ -47,24 +47,24 @@ public class ToDoTaskController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<ToDoTaskDTO> getTask(@PathVariable UUID id) {
-        ToDoTaskDTO task = new ToDoTaskDTO(taskService.getById(id));
+    public EntityModel<ToDoTaskOutputDTO> getTask(@PathVariable UUID id) {
+        ToDoTaskOutputDTO task = taskService.getById(id);
         return toDoTaskModelAssembler.toModel(task);
     }
 
     @PostMapping()
-    public ResponseEntity<EntityModel<ToDoTaskDTO>> createTask(@RequestBody ToDoTaskDTO task) {
-        EntityModel<ToDoTaskDTO> entityModel = toDoTaskModelAssembler.toModel(taskService.createTask(task));
+    public ResponseEntity<EntityModel<ToDoTaskOutputDTO>> createTask(@RequestBody ToDoTaskInputDTO task) {
+        EntityModel<ToDoTaskOutputDTO> entityModel = toDoTaskModelAssembler.toModel(taskService.createTask(task));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@RequestBody ToDoTaskDTO newTask, @PathVariable UUID id) {
+    public ResponseEntity<?> updateTask(@RequestBody ToDoTaskInputDTO newTask, @PathVariable UUID id) {
         try {
-            ToDoTaskDTO updatedTask = taskService.updateTask(newTask, id);
-            EntityModel<ToDoTaskDTO> entityModel = toDoTaskModelAssembler.toModel(updatedTask);
+            ToDoTaskOutputDTO updatedTask = taskService.updateTask(newTask, id);
+            EntityModel<ToDoTaskOutputDTO> entityModel = toDoTaskModelAssembler.toModel(updatedTask);
             return ResponseEntity
                     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                     .body(entityModel);
