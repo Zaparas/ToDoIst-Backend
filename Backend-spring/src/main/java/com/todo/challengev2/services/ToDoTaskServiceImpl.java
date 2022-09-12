@@ -23,13 +23,29 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     private final ToDoTaskRepository repository;
 
     @Override
-    public ToDoTaskDTO ConvertToDTo(ToDoTask task){ return new ToDoTaskDTO(task); }
-
-    @Override
     public ToDoTask convertToEntity(ToDoTaskDTO toDoTaskDTO) {
         ToDoTask task = new ToDoTask();
         BeanUtils.copyProperties(toDoTaskDTO, task);
         return task;
+    }
+
+    @Override
+    public List<ToDoTaskDTO> getAllTasks() {
+        List<ToDoTaskDTO> list = new ArrayList<>();
+        for (ToDoTask task : repository.findAll()) {
+            list.add(new ToDoTaskDTO(task));
+        }
+        return list;
+    }
+
+    @Override
+    public ToDoTask getById(UUID id) throws RuntimeException{
+        Optional<ToDoTask> optional = repository.findById(id);
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+        }
+
+        return repository.findById(id).get();
     }
 
     @Override
@@ -47,30 +63,9 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     @Override
-    public List<ToDoTaskDTO> getAllTasks() {
-        List<ToDoTaskDTO> list = new ArrayList<>();
-        for (ToDoTask task : repository.findAll()) {
-            list.add(new ToDoTaskDTO(task));
-        }
-        return list;
-    }
-
-    @Override
-    public ToDoTask getById(UUID id) {
-        Optional<ToDoTask> optional = repository.findById(id);
-        if (optional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
-        }
-
-       return repository.findById(id).get();
-    }
-
-    @Override
     public void deleteTask(UUID id){
-        if (getById(id) == null) {
-            throw new RuntimeException("Did not found task with id: " + id);
+        if (getById(id) != null) {
+            repository.deleteById(id);
         }
-        repository.deleteById(id);
     }
-
 }
