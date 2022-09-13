@@ -1,6 +1,7 @@
 package com.todo.challengev2.controllers;
 
 import com.todo.challengev2.domain.Task;
+import com.todo.challengev2.dto.TaskIndexDTO;
 import com.todo.challengev2.dto.TaskOutDTO;
 import com.todo.challengev2.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/tasks")
 @RestController
@@ -29,4 +31,12 @@ public class TaskSearchController {
         }
         return list;
     }
+
+    @GetMapping("/search-dto")
+    public List<TaskOutDTO> searchDTO(TaskIndexDTO indexDTO) {
+        List<TaskOutDTO> list = new ArrayList<>();
+        for (Task task : taskRepository.searchDTO(indexDTO)) {
+            list.add(new TaskOutDTO(task));
+        }
+        return list;    }
 }
