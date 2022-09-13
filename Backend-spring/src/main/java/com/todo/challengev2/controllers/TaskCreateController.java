@@ -1,9 +1,9 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.dto.ToDoTaskInputDTO;
-import com.todo.challengev2.dto.ToDoTaskOutputDTO;
-import com.todo.challengev2.model.ToDoTaskModelAssembler;
-import com.todo.challengev2.services.ToDoTaskServiceImpl;
+import com.todo.challengev2.dto.TaskInDTO;
+import com.todo.challengev2.dto.TaskOutDTO;
+import com.todo.challengev2.model.TaskModelAssembler;
+import com.todo.challengev2.services.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,16 +21,16 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class TaskCreateController {
 
-    public final ToDoTaskServiceImpl taskService;
-    private final ToDoTaskModelAssembler toDoTaskModelAssembler;
+    public final TaskServiceImpl taskService;
+    private final TaskModelAssembler taskModelAssembler;
 
     @Operation(summary = "Stores a new task in the database", tags = {"Tasks","Create"})
     @ApiResponses({
             @ApiResponse(description = "Created a new Task", responseCode = "201", content = @Content(mediaType = "link"))
     })
     @PostMapping()
-    public ResponseEntity<EntityModel<ToDoTaskOutputDTO>> createTask(@RequestBody ToDoTaskInputDTO task) {
-        EntityModel<ToDoTaskOutputDTO> entityModel = toDoTaskModelAssembler.toModel(taskService.createTask(task));
+    public ResponseEntity<EntityModel<TaskOutDTO>> createTask(@RequestBody TaskInDTO task) {
+        EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(taskService.createTask(task));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

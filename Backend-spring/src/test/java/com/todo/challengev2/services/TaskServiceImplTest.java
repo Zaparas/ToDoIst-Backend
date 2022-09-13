@@ -1,8 +1,8 @@
 package com.todo.challengev2.services;
 
-import com.todo.challengev2.domain.ToDoTask;
-import com.todo.challengev2.dto.ToDoTaskOutputDTO;
-import com.todo.challengev2.repositories.ToDoTaskRepository;
+import com.todo.challengev2.domain.Task;
+import com.todo.challengev2.dto.TaskOutDTO;
+import com.todo.challengev2.repositories.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ToDoTaskServiceImplTest {
+class TaskServiceImplTest {
 
     @InjectMocks
-    ToDoTaskServiceImpl service;
+    TaskServiceImpl service;
 
     @Mock
-    ToDoTaskRepository repo;
+    TaskRepository repo;
 
     @Test
     void convertToEntity() {
@@ -34,12 +34,12 @@ class ToDoTaskServiceImplTest {
     @Test
     void getAllTasks() {
 
-        List<ToDoTaskOutputDTO> listRes;
-        List<ToDoTask> listData = new ArrayList<>();
+        List<TaskOutDTO> listRes;
+        List<Task> listData = new ArrayList<>();
 
-        listData.add(new ToDoTask("clean test", LocalDate.now(),HIGH));
-        listData.add(new ToDoTask("jumps test", LocalDate.now().plusDays(1),LOW));
-        listData.add(new ToDoTask("dance test", LocalDate.now().plusWeeks(1),MID));
+        listData.add(new Task("clean test", LocalDate.now(),HIGH));
+        listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
+        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
 
 //        when(repo.findAll()).thenReturn(listData);
         Mockito.doReturn(listData).when(repo).findAll();
@@ -55,12 +55,12 @@ class ToDoTaskServiceImplTest {
     @Test
     void getById() {
 
-//        ToDoTaskOutputDTO listRes;
-//        List<ToDoTask> listData = new ArrayList<>();
+//        TaskOutDTO listRes;
+//        List<Task> listData = new ArrayList<>();
 //
-//        listData.add(new ToDoTask("clean test", LocalDate.now(),HIGH));
-//        listData.add(new ToDoTask("jumps test", LocalDate.now().plusDays(1),LOW));
-//        listData.add(new ToDoTask("dance test", LocalDate.now().plusWeeks(1),MID));
+//        listData.add(new Task("clean test", LocalDate.now(),HIGH));
+//        listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
+//        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
 //
 //        Mockito.doReturn(listData).when(repo).findById(listData.get(1).getId());
 //

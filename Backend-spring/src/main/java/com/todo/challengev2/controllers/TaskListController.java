@@ -1,8 +1,8 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.dto.ToDoTaskOutputDTO;
-import com.todo.challengev2.model.ToDoTaskModelAssembler;
-import com.todo.challengev2.services.ToDoTaskServiceImpl;
+import com.todo.challengev2.dto.TaskOutDTO;
+import com.todo.challengev2.model.TaskModelAssembler;
+import com.todo.challengev2.services.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,17 +27,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Slf4j
 public class TaskListController {
 
-    public final ToDoTaskServiceImpl taskService;
-    private final ToDoTaskModelAssembler toDoTaskModelAssembler;
+    public final TaskServiceImpl taskService;
+    private final TaskModelAssembler taskModelAssembler;
 
     @Operation( summary = "Fetches all tasks currently stored and accessible in the database.", tags = {"Tasks","GetAll"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "The Tasks have been fetched", content = {@Content(mediaType = "ListOfAllTasks/json")}) //TODO: research media-type & json name importance?
     })
     @GetMapping
-    public CollectionModel<EntityModel<ToDoTaskOutputDTO>> list() {
-        List<EntityModel<ToDoTaskOutputDTO>> tasks = taskService.getAllTasks().stream()
-                .map(toDoTaskModelAssembler::toModel)
+    public CollectionModel<EntityModel<TaskOutDTO>> list() {
+        List<EntityModel<TaskOutDTO>> tasks = taskService.getAllTasks().stream()
+                .map(taskModelAssembler::toModel)
                 .collect(Collectors.toList());
 
         return CollectionModel.of(tasks,

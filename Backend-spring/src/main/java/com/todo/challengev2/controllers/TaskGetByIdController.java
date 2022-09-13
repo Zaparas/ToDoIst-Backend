@@ -1,8 +1,8 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.dto.ToDoTaskOutputDTO;
-import com.todo.challengev2.model.ToDoTaskModelAssembler;
-import com.todo.challengev2.services.ToDoTaskServiceImpl;
+import com.todo.challengev2.dto.TaskOutDTO;
+import com.todo.challengev2.model.TaskModelAssembler;
+import com.todo.challengev2.services.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +23,8 @@ import java.util.UUID;
 @Slf4j
 public class TaskGetByIdController {
 
-    public final ToDoTaskServiceImpl taskService;
-    private final ToDoTaskModelAssembler toDoTaskModelAssembler;
+    public final TaskServiceImpl taskService;
+    private final TaskModelAssembler taskModelAssembler;
 
     @Operation( summary = "Fetches a specific task via ID - UUID", tags = {"Tasks","GetBy"})
     @ApiResponses({
@@ -32,8 +32,8 @@ public class TaskGetByIdController {
             @ApiResponse(description = "Did not find any Task using this id as a reference point or invalid ID", responseCode = "404", content = @Content)
     })
     @GetMapping("/{id}")
-    public EntityModel<ToDoTaskOutputDTO> getTask(@PathVariable UUID id) {
-        ToDoTaskOutputDTO task = taskService.getById(id);
-        return toDoTaskModelAssembler.toModel(task);
+    public EntityModel<TaskOutDTO> getTask(@PathVariable UUID id) {
+        TaskOutDTO task = taskService.getById(id);
+        return taskModelAssembler.toModel(task);
     }
 }

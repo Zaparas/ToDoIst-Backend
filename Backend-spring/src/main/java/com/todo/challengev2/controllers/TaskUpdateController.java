@@ -1,9 +1,9 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.dto.ToDoTaskInputDTO;
-import com.todo.challengev2.dto.ToDoTaskOutputDTO;
-import com.todo.challengev2.model.ToDoTaskModelAssembler;
-import com.todo.challengev2.services.ToDoTaskServiceImpl;
+import com.todo.challengev2.dto.TaskInDTO;
+import com.todo.challengev2.dto.TaskOutDTO;
+import com.todo.challengev2.model.TaskModelAssembler;
+import com.todo.challengev2.services.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +23,8 @@ import java.util.UUID;
 @Slf4j
 public class TaskUpdateController {
 
-    public final ToDoTaskServiceImpl taskService;
-    private final ToDoTaskModelAssembler toDoTaskModelAssembler;
+    public final TaskServiceImpl taskService;
+    private final TaskModelAssembler taskModelAssembler;
 
     @Operation(summary = "Update the fields of an existing Task", tags = {"Tasks","Update"})
     @ApiResponses({
@@ -33,10 +33,10 @@ public class TaskUpdateController {
             //,@ApiResponse(description = "no content", responseCode = "204", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@RequestBody ToDoTaskInputDTO newTask, @PathVariable UUID id) {
+    public ResponseEntity<?> updateTask(@RequestBody TaskInDTO newTask, @PathVariable UUID id) {
         try {
-            ToDoTaskOutputDTO updatedTask = taskService.updateTask(newTask, id);
-            EntityModel<ToDoTaskOutputDTO> entityModel = toDoTaskModelAssembler.toModel(updatedTask);
+            TaskOutDTO updatedTask = taskService.updateTask(newTask, id);
+            EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(updatedTask);
             return ResponseEntity
                     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                     .body(entityModel);
