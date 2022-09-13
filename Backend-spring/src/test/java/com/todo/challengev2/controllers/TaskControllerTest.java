@@ -3,7 +3,7 @@ package com.todo.challengev2.controllers;
 import org.junit.jupiter.api.Test;
 
 
-class ToDoTaskControllerTest {
+class TaskControllerTest {
 
 
     @Test
