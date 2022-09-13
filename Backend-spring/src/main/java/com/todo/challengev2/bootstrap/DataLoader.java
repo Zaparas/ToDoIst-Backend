@@ -29,6 +29,6 @@ public class DataLoader {
                 log.info("Log - Preloading - " + repository.save(new ToDoTask("Make Coffee", LocalDate.now(), PriorityType.LOW )));
             };
         }
-        return args -> log.info("Database already initialized");
+        return args -> log.info("Database already initialized. Detected " + service.getAllTasks().size() + " number of entries");
     }
 }
