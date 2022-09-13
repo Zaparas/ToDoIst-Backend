@@ -6,10 +6,7 @@ import com.todo.challengev2.dto.TaskOutDTO;
 import com.todo.challengev2.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ public class TaskSearchController {
     }
 
     @GetMapping("/search-dto")
-    public List<TaskOutDTO> searchDTO(TaskIndexDTO indexDTO) {
+    public List<TaskOutDTO> searchDTO(@RequestBody TaskIndexDTO indexDTO) {
         List<TaskOutDTO> list = new ArrayList<>();
         for (Task task : taskRepository.searchDTO(indexDTO)) {
             list.add(new TaskOutDTO(task));

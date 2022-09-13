@@ -13,9 +13,11 @@ import java.util.UUID;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {
 
+    // TODO: 13/9/2022 It works 
     @Query("SELECT t FROM Task t WHERE t.id LIKE CAST(?1 AS org.hibernate.type.UUIDCharType) OR t.name LIKE %?1% OR t.priority LIKE %?1%")
     List<Task> search(@Param("args") String args);
 
-    @Query("SELECT t FROM Task t WHERE t.name = :#{#args.name}")
+    // TODO: 13/9/2022 Error fixed, returns nothing
+    @Query("SELECT t FROM Task t WHERE t.id LIKE CONCAT(?#{#args.id}, '%') OR t.name LIKE CONCAT(?#{#args.name}, '%')")
     List<Task> searchDTO(@Param("args") TaskIndexDTO args);
 }
