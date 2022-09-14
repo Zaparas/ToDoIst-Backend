@@ -2,6 +2,7 @@ package com.todo.challengev2.services;
 
 import com.todo.challengev2.domain.Task;
 import com.todo.challengev2.dto.TaskInDTO;
+import com.todo.challengev2.dto.TaskIndexDTO;
 import com.todo.challengev2.dto.TaskOutDTO;
 import com.todo.challengev2.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,5 +73,14 @@ public class TaskServiceImpl implements TaskService {
         if (getById(id) != null) {
             repository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<TaskOutDTO> searchTask(TaskIndexDTO taskIndexDTO) {
+        List<TaskOutDTO> list = new ArrayList<>();
+        for (Task task : repository.search(taskIndexDTO)) {
+            list.add(new TaskOutDTO(task));
+        }
+        return list;
     }
 }
