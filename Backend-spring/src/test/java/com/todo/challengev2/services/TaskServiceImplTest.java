@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void getById() {
+    void getById_ValidId_Success() {
 
         Task in = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
         in.setId(UUID.randomUUID());
@@ -62,12 +64,26 @@ class TaskServiceImplTest {
 
         TaskOutDTO res = service.getById(in.getId());
 
-//        assertEquals(res,new TaskOutDTO(in));
         verify(repo, times(1)).findById(in.getId());
 
+        assertEquals(res.getId(),in.getId());
         assertEquals(res.getName(),in.getName());
         assertEquals(res.getDueDate(),in.getDueDate());
         assertEquals(res.getPriority(),in.getPriority());
+    }
+
+    @Test
+    void getById_InvalidId_ResponseStatusException_NotFound() {
+
+        Task in = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
+        in.setId(UUID.randomUUID());
+
+        final UUID target = UUID.fromString(in.getId().toString().replaceAll("[^\\\\d-]","a"));
+
+        Mockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(repo).findById(target);
+
+        assertThrows(ResponseStatusException.class,() ->service.getById(target));
+        verify(repo, times(1)).findById(target);
     }
 
     @Test
