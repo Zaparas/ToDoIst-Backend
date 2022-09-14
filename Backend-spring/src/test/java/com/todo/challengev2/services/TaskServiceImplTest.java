@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static com.todo.challengev2.config.util.PriorityType.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,21 +55,19 @@ class TaskServiceImplTest {
     @Test
     void getById() {
 
-//        Task temp = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
-//        TaskOutDTO res;
-//
-//        List<Task> listData = new ArrayList<>();
-//        listData.add(new Task("clean test", LocalDate.now(),HIGH));
-//        listData.add(temp);
-//        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
-//
-//        //TODO: must set mockito return command here for repo probably best to delete this command and write a new one
-//        // Mockito.when(repo.findById(temp.getId()).thenReturn(temp));
-//
-//        res = service.getById(listData.get(1).getId());
-//
-//        assertEquals(res,new TaskOutDTO(temp));
-//        verify(repo, times(1)).findAll();
+        Task in = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
+        in.setId(UUID.randomUUID());
+
+        Mockito.doReturn(Optional.of(in)).when(repo).findById(in.getId());
+
+        TaskOutDTO res = service.getById(in.getId());
+
+//        assertEquals(res,new TaskOutDTO(in));
+        verify(repo, times(1)).findById(in.getId());
+
+        assertEquals(res.getName(),in.getName());
+        assertEquals(res.getDueDate(),in.getDueDate());
+        assertEquals(res.getPriority(),in.getPriority());
     }
 
     @Test
