@@ -42,12 +42,11 @@ public class SecurityConfigurer {
         final CorsConfiguration configuration = new CorsConfiguration();
         if (restServiceConfiguration.isCorsEnabled()) {
             // allow GET, PUT, POST, PATCH, DELETE
-            configuration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.PUT.name(),
-                    HttpMethod.POST.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name()));
+            configuration.setAllowedMethods(List.of("*"));
             // allow origin http://localhost:4200
             configuration.setAllowedOrigins(restServiceConfiguration.getCorsAllowedOrigins());
             // allow all headers
-            configuration.setAllowedHeaders(restServiceConfiguration.getCorsAllowedHeaders());
+            configuration.setAllowedHeaders(List.of("*"));
             log.info("CORS enabled");
         }
 
