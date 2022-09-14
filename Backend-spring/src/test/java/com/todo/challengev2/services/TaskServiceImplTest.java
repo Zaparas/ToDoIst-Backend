@@ -41,10 +41,8 @@ class TaskServiceImplTest {
         listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
         listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
 
-//        when(repo.findAll()).thenReturn(listData);
         Mockito.doReturn(listData).when(repo).findAll();
 
-        // Run Test
         listRes = service.getAllTasks();
 
         assertEquals(3,listRes.size());
@@ -55,19 +53,20 @@ class TaskServiceImplTest {
     @Test
     void getById() {
 
-//        TaskOutDTO listRes;
-//        List<Task> listData = new ArrayList<>();
+//        Task temp = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
+//        TaskOutDTO res;
 //
+//        List<Task> listData = new ArrayList<>();
 //        listData.add(new Task("clean test", LocalDate.now(),HIGH));
-//        listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
+//        listData.add(temp);
 //        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
 //
-//        Mockito.doReturn(listData).when(repo).findById(listData.get(1).getId());
+//        //TODO: must set mockito return command here for repo probably best to delete this command and write a new one
+//        // Mockito.when(repo.findById(temp.getId()).thenReturn(temp));
 //
-//        // Run Test
-//        listRes = service.getById(listData.get(1).getId());
+//        res = service.getById(listData.get(1).getId());
 //
-//        assertEquals(listData.get(1).getId(),listRes.getId());
+//        assertEquals(res,new TaskOutDTO(temp));
 //        verify(repo, times(1)).findAll();
     }
 

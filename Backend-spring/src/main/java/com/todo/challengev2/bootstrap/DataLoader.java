@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-
 @Configuration
 @Slf4j
 public class DataLoader {
@@ -29,6 +28,6 @@ public class DataLoader {
                 log.info("Log - Preloading - " + repository.save(new Task("Make Coffee", LocalDate.now(), PriorityType.LOW )));
             };
         }
-        return args -> log.info("Database already initialized. Detected " + service.getAllTasks().size() + " number of entries");
+        return args -> log.info("Database already initialized. Number of total entries is: #" + service.getAllTasks().size());
     }
 }
