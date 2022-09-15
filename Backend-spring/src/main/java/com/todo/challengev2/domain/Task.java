@@ -16,6 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Task {
 
 

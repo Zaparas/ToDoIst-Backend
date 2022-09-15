@@ -1,6 +1,7 @@
 package com.todo.challengev2.services;
 
 import com.todo.challengev2.domain.Task;
+import com.todo.challengev2.dto.TaskInDTO;
 import com.todo.challengev2.dto.TaskOutDTO;
 import com.todo.challengev2.repositories.TaskRepository;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static com.todo.challengev2.config.util.PriorityType.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +31,15 @@ class TaskServiceImplTest {
 
     @Test
     void convertToEntity() {
+
+        Task task = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
+        TaskInDTO in = new TaskInDTO(new TaskOutDTO(task));
+
+        Task res = service.convertToEntity(in);
+
+        assertEquals(res.getName(),in.getName());
+        assertEquals(res.getDueDate(),in.getDueDate());
+        assertEquals(res.getPriority(),in.getPriority());
     }
 
     @Test
@@ -88,5 +95,24 @@ class TaskServiceImplTest {
 
     @Test
     void createTask() {
+
+        // TODO fix this "Strict stubbing argument mismatch on save method save" at line with command Mockito.doReturn(taskIn).when(repo).save(taskIn);
+
+        Task taskIn = new Task("jumps test", LocalDate.now().plusDays(1),LOW);
+
+        TaskInDTO pre = new TaskInDTO(new TaskOutDTO(taskIn));
+
+
+        Mockito.doReturn(taskIn).when(repo).save(taskIn);
+
+//        TaskOutDTO result = service.createTask(pre);
+
+        verify(repo, times(1)).save(service.convertToEntity(pre));
+
+////        assertEquals(out.getId(),res.getId());
+//        assertEquals(times(1).)
+//        assertEquals(taskIn.getName(),result.getName());
+//        assertEquals(taskIn.getDueDate(),result.getDueDate());
+//        assertEquals(taskIn.getPriority(),result.getPriority());
     }
 }
