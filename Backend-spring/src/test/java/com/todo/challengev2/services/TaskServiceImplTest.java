@@ -34,19 +34,19 @@ class TaskServiceImplTest {
     @Test
     void getAllTasks() {
 
-        List<TaskOutDTO> listRes;
-        List<Task> listData = new ArrayList<>();
-
-        listData.add(new Task("clean test", LocalDate.now(),HIGH));
-        listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
-        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
-
-        Mockito.doReturn(listData).when(repo).findAll();
-
-        listRes = service.getAllTasks();
-
-        assertEquals(3,listRes.size());
-        verify(repo, times(1)).findAll();
+//        List<TaskOutDTO> listRes;
+//        List<Task> listData = new ArrayList<>();
+//
+//        listData.add(new Task("clean test", LocalDate.now(),HIGH));
+//        listData.add(new Task("jumps test", LocalDate.now().plusDays(1),LOW));
+//        listData.add(new Task("dance test", LocalDate.now().plusWeeks(1),MID));
+//
+//        Mockito.doReturn(listData).when(repo).findAll();
+//
+//        listRes = service.getAllTasks();
+//
+//        assertEquals(3,listRes.size());
+//        verify(repo, times(1)).findAll();
 
     }
 

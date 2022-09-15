@@ -52,9 +52,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskOutDTO createTask(TaskInDTO task) {
-        Task entity = convertToEntity(task);
-        repository.save(entity);
-        return new TaskOutDTO(convertToEntity(task));
+        return new TaskOutDTO(repository.save(convertToEntity(task)));
     }
 
     @Override

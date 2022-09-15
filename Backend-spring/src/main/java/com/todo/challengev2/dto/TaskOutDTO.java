@@ -14,11 +14,12 @@ public class TaskOutDTO {
     private String name;
     private LocalDate dueDate;
     private PriorityType priority;
-
+    private String description;
     public TaskOutDTO(Task task) {
         this.id = task.getId();
         this.name = task.getName();
         this.dueDate = task.getDueDate();
         this.priority = task.getPriority();
+        this.description = task.getDescription();
     }
 }

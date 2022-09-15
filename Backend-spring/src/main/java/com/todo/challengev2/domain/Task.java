@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -26,13 +28,14 @@ public class Task {
     private UUID id;
     private String name;
     private LocalDate dueDate;
-
     @Enumerated(EnumType.STRING)
     private PriorityType priority;
+    private String description;
 
-    public Task(String name, LocalDate dueDate, PriorityType priority) {
+    public Task(String name, LocalDate dueDate, PriorityType priority, String description) {
         this.name = name;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.description = description;
     }
 }

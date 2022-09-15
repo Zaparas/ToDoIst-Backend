@@ -20,12 +20,12 @@ public class DataLoader {
     private TaskService service;
     @Bean
     CommandLineRunner initDatabase(TaskRepository repository){
-
+        repository.deleteAll();
         if (service.getAllTasks().isEmpty()) {
             return args -> {
-                log.info("Log - Preloading - " + repository.save(new Task("Code", LocalDate.now().plusDays(1), PriorityType.HIGH )));
-                log.info("Log - Preloading - " + repository.save(new Task("Team Meeting", LocalDate.now().plusDays(2), PriorityType.LOW )));
-                log.info("Log - Preloading - " + repository.save(new Task("Make Coffee", LocalDate.now(), PriorityType.LOW )));
+                log.info("Log - Preloading - " + repository.save(new Task("Code", LocalDate.now().plusDays(1), PriorityType.HIGH, "Lorem Ipsum Description")));
+                log.info("Log - Preloading - " + repository.save(new Task("Team Meeting", LocalDate.now().plusDays(2), PriorityType.LOW, "Random Text for Description")));
+                log.info("Log - Preloading - " + repository.save(new Task("Make Coffee", LocalDate.now(), PriorityType.LOW, "Some description here")));
             };
         }
         return args -> log.info("Database already initialized. Number of total entries is: #" + service.getAllTasks().size());
