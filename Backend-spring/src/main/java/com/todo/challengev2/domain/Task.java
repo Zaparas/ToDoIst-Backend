@@ -1,6 +1,7 @@
 package com.todo.challengev2.domain;
 
 import com.todo.challengev2.config.util.PriorityType;
+import com.todo.challengev2.config.util.RelationType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Task {
 
 
@@ -31,6 +33,16 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private PriorityType priority;
     private String description;
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<Relation> relations = new ArrayList<>();
+
+    public Task(String name, LocalDate dueDate, PriorityType priority, String description, List<Relation> relations) {
+        this.name = name;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.description = description;
+        this.relations = relations;
+    }
 
     public Task(String name, LocalDate dueDate, PriorityType priority, String description) {
         this.name = name;
