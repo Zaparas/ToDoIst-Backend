@@ -6,6 +6,7 @@ import com.todo.challengev2.domain.Task;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class TaskOutDTO {
     private LocalDate dueDate;
     private PriorityType priority;
     private String description;
-    private List<RelationDTO> relationDTOS;
+    private List<RelationDTO> relationDTOS = new ArrayList<>();
     public TaskOutDTO(Task task) {
         this.id = task.getId();
         this.name = task.getName();
