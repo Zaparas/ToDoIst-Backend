@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -18,15 +19,15 @@ public class Relation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
-
     private RelationType relationType;
-
     @ManyToOne
     @JoinColumn(name = "id", insertable=false, updatable=false)
     private Task task;
 
     public Relation(RelationType relationType, Task task) {
+        this.id = UUID.randomUUID();
         this.relationType = relationType;
         this.task = task;
     }

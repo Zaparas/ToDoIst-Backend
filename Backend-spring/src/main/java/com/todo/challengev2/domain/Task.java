@@ -33,7 +33,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private PriorityType priority;
     private String description;
-    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     List<Relation> relations = new ArrayList<>();
 
     public Task(String name, LocalDate dueDate, PriorityType priority, String description, List<Relation> relations) {
