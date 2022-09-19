@@ -22,8 +22,7 @@ public class Relation {
     private UUID id;
     @Enumerated(EnumType.STRING)
     private RelationType relationType;
-    @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Task task;
 
     public Relation(RelationType relationType, Task task) {

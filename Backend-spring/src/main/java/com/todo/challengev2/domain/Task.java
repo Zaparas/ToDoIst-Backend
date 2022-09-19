@@ -35,7 +35,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private PriorityType priority;
     private String description;
-    @OneToMany(mappedBy = "task", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Relation> relations = new ArrayList<>();
 
     public Task(String name, LocalDate dueDate, PriorityType priority, String description, List<Relation> relations) {
@@ -43,14 +43,15 @@ public class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.description = description;
-        if (!relations.isEmpty()) {
-            for (Relation relation : relations) {
-                log.info("Inside loop in Task Domain");
-                Relation temp = new Relation(RelationType.STEP, this); //elation.setTask();
-                relation.getTask().getRelations().add(temp);
-                this.relations.add(relation);
-            }
-        }
+        this.relations.addAll(relations);
+//        if (!relations.isEmpty()) {
+//            for (Relation relation : relations) {
+//                log.info("Inside loop in Task Domain");
+//                Relation temp = new Relation(RelationType.STEP, this); //elation.setTask();
+//                relation.getTask().getRelations().add(temp);
+//                this.relations.add(relation);
+//            }
+//        }
     }
 
     public Task(String name, LocalDate dueDate, PriorityType priority, String description) {
