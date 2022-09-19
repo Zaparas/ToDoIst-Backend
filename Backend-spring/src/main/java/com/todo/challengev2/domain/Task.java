@@ -3,6 +3,7 @@ package com.todo.challengev2.domain;
 import com.todo.challengev2.config.util.PriorityType;
 import com.todo.challengev2.config.util.RelationType;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Slf4j
 @ToString
 public class Task {
 
@@ -41,7 +43,14 @@ public class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.description = description;
-        this.relations = relations;
+        if (!relations.isEmpty()) {
+            for (Relation relation : relations) {
+                log.info("Inside loop in Task Domain");
+                Relation temp = new Relation(RelationType.STEP, this); //elation.setTask();
+                relation.getTask().getRelations().add(temp);
+                this.relations.add(relation);
+            }
+        }
     }
 
     public Task(String name, LocalDate dueDate, PriorityType priority, String description) {

@@ -14,7 +14,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Relation {
 
     @Id
@@ -28,7 +27,6 @@ public class Relation {
     private Task task;
 
     public Relation(RelationType relationType, Task task) {
-//        this.id = UUID.randomUUID();
         this.relationType = relationType;
         this.task = task;
     }
