@@ -17,15 +17,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+/**
+ * This class implements a controller, creating an end-point for GetById Task service method.
+ */
 @RequestMapping("/tasks")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TaskGetByIdController {
 
+    /**
+     * Imports Task Service to Controller.
+     */
     public final TaskServiceImpl taskService;
+    /**
+     * Imports Model Assembler to Controller.
+     */
     private final TaskModelAssembler taskModelAssembler;
 
+    /**
+     * This method implements a Get Request, using get() service method.
+     * @param id, the requested ID of the Entity that we want to fetch.
+     * @return a TaskOutDTO of the Entity (if is found).
+     */
     @Operation( summary = "Fetches a specific task via ID - UUID", tags = {"Tasks","GetBy"})
     @ApiResponses({
             @ApiResponse(description = "Got a specific Task using this id as a reference point",   responseCode =

@@ -21,15 +21,28 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * This class implements a controller, creating an end-point for list() Task service method.
+ */
 @RequestMapping("/tasks")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TaskListController {
 
+    /**
+     * Imports Task Service to Controller.
+     */
     public final TaskServiceImpl taskService;
+    /**
+     * Imports Model Assembler to Controller.
+     */
     private final TaskModelAssembler taskModelAssembler;
 
+    /**
+     * This method implements a Get Request, using list() service method.
+     * @return a list of TaskOutDTOs, of stored tasks in the database.
+     */
     @Operation( summary = "Fetches all tasks currently stored and accessible in the database.",  tags = {"Tasks",
             "GetAll"})
     @ApiResponses(value = {

@@ -15,16 +15,25 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
+/**
+ * This class implements a controller, creating an end-point for Delete Task service method.
+ */
 @RequestMapping("/tasks")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TaskDeleteController {
 
-    public final TaskServiceImpl taskService;
-    private final TaskModelAssembler taskModelAssembler;
+    /**
+     * Imports Model Assembler to Controller.
+     */
+    private final TaskServiceImpl taskService;
 
-    // TODO: Convert void to ResponseEntity<?>, to return status code
+    /**
+     * This method implements a Delete Request, using deleteTask() service method.
+     * @param id, the requested ID of the Entity that we want to delete from the database.
+     * @return an Response Entity, depends on whether deletion was successful or not.
+     */
     @Operation(summary = "delete an existing Task", tags = {"Tasks","delete"})
     @ApiResponses({
             @ApiResponse(description = "delete a Task", responseCode = "200", content = @Content)
@@ -38,7 +47,6 @@ public class TaskDeleteController {
             return ResponseEntity.ok().build();
         }
         catch (Exception e){
-            //  return ResponseEntity.notFound().build();
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
