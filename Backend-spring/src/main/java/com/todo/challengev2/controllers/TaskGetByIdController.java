@@ -28,8 +28,10 @@ public class TaskGetByIdController {
 
     @Operation( summary = "Fetches a specific task via ID - UUID", tags = {"Tasks","GetBy"})
     @ApiResponses({
-            @ApiResponse(description = "Got a specific Task using this id as a reference point", responseCode = "200", content = @Content(mediaType = "task/json")),
-            @ApiResponse(description = "Did not find any Task using this id as a reference point or invalid ID", responseCode = "404", content = @Content)
+            @ApiResponse(description = "Got a specific Task using this id as a reference point",   responseCode =
+                    "200", content = @Content(mediaType = "task/json")),
+            @ApiResponse(description = "Did not find any Task using this id as a reference point or invalid ID",
+                    responseCode = "404", content = @Content)
     })
     @GetMapping("/{id}")
     public EntityModel<TaskOutDTO> getTask(@PathVariable UUID id) {

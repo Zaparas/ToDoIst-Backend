@@ -30,9 +30,11 @@ public class TaskListController {
     public final TaskServiceImpl taskService;
     private final TaskModelAssembler taskModelAssembler;
 
-    @Operation( summary = "Fetches all tasks currently stored and accessible in the database.", tags = {"Tasks","GetAll"})
+    @Operation( summary = "Fetches all tasks currently stored and accessible in the database.",  tags = {"Tasks",
+            "GetAll"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "The Tasks have been fetched", content = {@Content(mediaType = "ListOfAllTasks/json")}) //TODO: research media-type & json name importance?
+            @ApiResponse(responseCode = "200", description = "The Tasks have been fetched",  content =
+                    {@Content(mediaType = "ListOfAllTasks/json")}) //TODO: research media-type & json name importance?
     })
     @GetMapping
     public CollectionModel<EntityModel<TaskOutDTO>> list() {

@@ -31,7 +31,8 @@ public class TaskSearchController {
 
     @Operation( summary = "Fetches tasks, according user's search", tags = {"Tasks","Search"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Search results have been fetched", content = {@Content(mediaType = "SearchResults/json")})
+            @ApiResponse(responseCode = "200", description = "Search results have been fetched", content =
+                    {@Content(mediaType = "SearchResults/json")})
     })
     @GetMapping("/search")
     public CollectionModel<EntityModel<TaskOutDTO>> search(@RequestBody TaskIndexDTO taskIndexDTO) {

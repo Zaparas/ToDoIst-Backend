@@ -26,7 +26,8 @@ public class TaskCreateController {
 
     @Operation(summary = "Stores a new task in the database", tags = {"Tasks","Create"})
     @ApiResponses({
-            @ApiResponse(description = "Created a new Task", responseCode = "201", content = @Content(mediaType = "link"))
+            @ApiResponse(description = "Created a new Task", responseCode = "201", content =  @Content(mediaType =
+                    "link"))
     })
     @PostMapping()
     public ResponseEntity<EntityModel<TaskOutDTO>> createTask(@RequestBody TaskInDTO task) {

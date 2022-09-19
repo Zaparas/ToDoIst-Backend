@@ -28,7 +28,8 @@ public class TaskDeleteController {
     @Operation(summary = "delete an existing Task", tags = {"Tasks","delete"})
     @ApiResponses({
             @ApiResponse(description = "delete a Task", responseCode = "200", content = @Content)
-            ,@ApiResponse(description = "task to delete not found or invalid ID", responseCode = "404", content = @Content)
+            ,@ApiResponse(description = "task to delete not found or invalid ID", responseCode = "404",  content =
+    @Content)
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable UUID id) {

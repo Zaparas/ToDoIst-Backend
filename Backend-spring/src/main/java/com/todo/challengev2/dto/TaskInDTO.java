@@ -1,6 +1,7 @@
 package com.todo.challengev2.dto;
 
 import com.todo.challengev2.config.util.PriorityType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class TaskInDTO {
 
@@ -16,10 +18,10 @@ public class TaskInDTO {
     private LocalDate dueDate;
     private PriorityType priority;
     private String description;
-//    public TaskInDTO(TaskOutDTO task) {
-//        this.name = task.getName();
-//        this.dueDate = task.getDueDate();
-//        this.priority = task.getPriority();
-//        this.description =
-//    }
+    public TaskInDTO(TaskOutDTO task) {
+        this.name = task.getName();
+        this.dueDate = task.getDueDate();
+        this.priority = task.getPriority();
+        this.description = task.getDescription();
+    }
 }
