@@ -47,14 +47,14 @@ public class TaskServiceImpl implements TaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
 
-        return new TaskOutDTO(repository.findById(id).get());
+        return new TaskOutDTO(optional.get());
     }
 
     @Override
     public TaskOutDTO createTask(TaskInDTO task) {
         Task entity = convertToEntity(task);
         repository.save(entity);
-        return new TaskOutDTO(convertToEntity(task));
+        return new TaskOutDTO(entity);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
         BeanUtils.copyProperties(newTask, optional.get());
-        return new TaskOutDTO(repository.save(optional.get()));
+        return new TaskOutDTO(optional.get());
     }
 
     @Override
