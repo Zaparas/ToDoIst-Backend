@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,10 +20,15 @@ public class TaskInDTO {
     private LocalDate dueDate;
     private PriorityType priority;
     private String description;
-    public TaskInDTO(TaskOutDTO task) {
-        this.name = task.getName();
-        this.dueDate = task.getDueDate();
-        this.priority = task.getPriority();
-        this.description = task.getDescription();
+    private List<RelationInDTO> relations = new ArrayList<>();
+
+    public TaskInDTO(TaskOutDTO taskOutDTO) {
+        this.name = taskOutDTO.getName();
+        this.dueDate = taskOutDTO.getDueDate();
+        this.priority = taskOutDTO.getPriority();
+        this.description = taskOutDTO.getDescription();
+        if (taskOutDTO.getRelations() != null) {
+
+        }
     }
 }

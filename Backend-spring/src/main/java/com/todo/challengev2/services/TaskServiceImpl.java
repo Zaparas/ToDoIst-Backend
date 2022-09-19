@@ -1,6 +1,8 @@
 package com.todo.challengev2.services;
 
+import com.todo.challengev2.domain.Relation;
 import com.todo.challengev2.domain.Task;
+import com.todo.challengev2.dto.RelationInDTO;
 import com.todo.challengev2.dto.TaskInDTO;
 import com.todo.challengev2.dto.TaskIndexDTO;
 import com.todo.challengev2.dto.TaskOutDTO;
@@ -28,7 +30,11 @@ public class TaskServiceImpl implements TaskService {
     /**
      * Imports JPA repository
      */
-    private final TaskRepository repository;
+    private final TaskRepository taskRepository;
+    /**
+     * Imports RelationService
+     */
+    private final RelationService relationService;
 
     /**
      * This method converts our input DTO (TaskInDTO) to an Entity, so we can use it on JPA's methods.
@@ -39,6 +45,11 @@ public class TaskServiceImpl implements TaskService {
     public Task convertToEntity(TaskInDTO taskInDTO) {
         Task task = new Task();
         BeanUtils.copyProperties(taskInDTO, task);
+        if (taskInDTO.getRelations() != null) {
+            for (RelationInDTO relationInDTO : taskInDTO.getRelations()) {
+                task.getRelations().add(relationService.convertToEntity(relationInDTO));
+            }
+        }
         return task;
     }
 
@@ -49,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskOutDTO> getAllTasks() {
         List<TaskOutDTO> list = new ArrayList<>();
-        for (Task task : repository.findAll()) {
+        for (Task task : taskRepository.findAll()) {
             list.add(new TaskOutDTO(task));
         }
         return list;
@@ -63,12 +74,12 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public TaskOutDTO getById(UUID id) throws RuntimeException{
-        Optional<Task> optional = repository.findById(id);
+        Optional<Task> optional = taskRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
 
-        return new TaskOutDTO(repository.findById(id).get());
+        return new TaskOutDTO(taskRepository.findById(id).get());
     }
 
     /**
@@ -78,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public TaskOutDTO createTask(TaskInDTO taskInDTO) {
-        return new TaskOutDTO(repository.save(convertToEntity(taskInDTO)));
+        return new TaskOutDTO(taskRepository.save(convertToEntity(taskInDTO)));
     }
 
     /**
@@ -92,12 +103,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskOutDTO updateTask(TaskInDTO newTask, UUID id) throws RuntimeException {
         // TODO: 12/9/2022 Should we use repository's "findById()" or service's "getById()" ?
-        Optional<Task> optional = repository.findById(id);
+        Optional<Task> optional = taskRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
         BeanUtils.copyProperties(newTask, optional.get());
-        return new TaskOutDTO(repository.save(optional.get()));
+        return new TaskOutDTO(taskRepository.save(optional.get()));
     }
 
     /**
@@ -107,7 +118,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(UUID id){
         if (getById(id) != null) {
-            repository.deleteById(id);
+            taskRepository.deleteById(id);
         }
     }
 
@@ -120,7 +131,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskOutDTO> searchTask(TaskIndexDTO taskIndexDTO) {
         List<TaskOutDTO> list = new ArrayList<>();
-        for (Task task : repository.search(taskIndexDTO)) {
+        for (Task task : taskRepository.search(taskIndexDTO)) {
             list.add(new TaskOutDTO(task));
         }
         return list;
