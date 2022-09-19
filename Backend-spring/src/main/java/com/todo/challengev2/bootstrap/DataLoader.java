@@ -28,14 +28,28 @@ public class DataLoader {
 
         if (service.getAllTasks().isEmpty()) {
             return args -> {
-                Task taskCode = repository.save(new Task("Code", LocalDate.now().plusDays(1),  PriorityType.HIGH,
+                Task taskCode = repository.save(new Task(
+                        "Code",
+                        LocalDate.now().plusDays(1),
+                        PriorityType.HIGH,
                         "Lorem Ipsum Description"));
-                Task taskMeeting = repository.save(new Task("Code Meeting", LocalDate.now().plusDays(2),
-                        PriorityType.LOW, "Random Text for Description", Arrays.asList(new Relation(RelationType.PARENT, taskCode))));
-                Task taskCoffee = repository.save(new Task("Make Coffee", LocalDate.now(), PriorityType.LOW,  "Some " +
-                        "description here",  Arrays.asList(new Relation(RelationType.DEPENDENT, taskMeeting))));
-                Task taskTask = repository.save(new Task("Task Coffee", LocalDate.now(), PriorityType.LOW,  "Some " +
-                        "something here",  Arrays.asList(new Relation(RelationType.DEPENDENT, taskCode))));
+                Task taskMeeting = repository.save(new Task(
+                        "Code Meeting",
+                        LocalDate.now().plusDays(2),
+                        PriorityType.LOW, "Random Text for Description",
+                        Arrays.asList(new Relation(RelationType.PARENT, taskCode))));
+                Task taskCoffee = repository.save(new Task(
+                        "Make Coffee",
+                        LocalDate.now(),
+                        PriorityType.LOW,
+                        "Some description here",
+                        Arrays.asList(new Relation(RelationType.DEPENDENT, taskMeeting))));
+                Task taskTask = repository.save(new Task(
+                        "Task Coffee",
+                        LocalDate.now(),
+                        PriorityType.LOW,
+                        "Some something here",
+                        Arrays.asList(new Relation(RelationType.DEPENDENT, taskCode))));
                 log.info("Number of total entries is: #" + service.getAllTasks().size());
             };
         }
