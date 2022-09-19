@@ -8,7 +8,7 @@ services:
     container_name: mysql
     # connect container port 3306 to host port 3306
     ports:
-      - "3306:3306"
+      - "3307:3306"
     # set environment variables for container
     environment:
       # set password for MySQL root user to 'pass'
@@ -20,5 +20,13 @@ services:
       - "3306"
     volumes:
       - my-db:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    container_name: phpmyadmin
+    ports:
+      - 2000:80
+    environment:
+      PMA_HOST: mysql
 volumes:
   my-db:
