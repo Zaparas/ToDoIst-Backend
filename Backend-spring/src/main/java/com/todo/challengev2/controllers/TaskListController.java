@@ -34,7 +34,7 @@ public class TaskListController {
             "GetAll"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "The Tasks have been fetched",  content =
-                    {@Content(mediaType = "ListOfAllTasks/json")}) //TODO: research media-type & json name importance?
+                    {@Content(mediaType = "ListOfAllTasks/json")})
     })
     @GetMapping
     public CollectionModel<EntityModel<TaskOutDTO>> list() {

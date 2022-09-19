@@ -1,6 +1,5 @@
 package com.todo.challengev2.controllers;
 
-import com.todo.challengev2.model.TaskModelAssembler;
 import com.todo.challengev2.services.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class TaskDeleteController {
 
     public final TaskServiceImpl taskService;
-    private final TaskModelAssembler taskModelAssembler;
 
     // TODO: Convert void to ResponseEntity<?>, to return status code
     @Operation(summary = "delete an existing Task", tags = {"Tasks","delete"})
@@ -37,7 +35,7 @@ public class TaskDeleteController {
             taskService.deleteTask(id);
             return ResponseEntity.ok().build();
         }
-        catch (Exception e){
+        catch (Exception exception){
             //  return ResponseEntity.notFound().build();
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

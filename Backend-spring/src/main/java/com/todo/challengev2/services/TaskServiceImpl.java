@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
 
-        return new TaskOutDTO(repository.findById(id).get());
+        return new TaskOutDTO(optional.get());
     }
 
     /**

@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -35,7 +37,9 @@ public class TaskGetByIdController {
     })
     @GetMapping("/{id}")
     public EntityModel<TaskOutDTO> getTask(@PathVariable UUID id) {
-        TaskOutDTO task = taskService.getById(id);
-        return taskModelAssembler.toModel(task);
+        TaskOutDTO result = taskService.getById(id);
+        if (result==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Relation with id: <" + id + "> not found. Get by id failed");
+        return taskModelAssembler.toModel(result);
     }
 }
