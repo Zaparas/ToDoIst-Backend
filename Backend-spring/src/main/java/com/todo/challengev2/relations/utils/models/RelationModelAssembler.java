@@ -13,6 +13,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class RelationModelAssembler implements RepresentationModelAssembler<RelationOutDTO, EntityModel<RelationOutDTO>> {
 
+    /**
+     * Creates a EntityModel including Links to the list functionality and the get self method.
+     * @param relation The relation entity on which the Entity model is build
+     * @return an entity model with proper links
+     */
     @Override
     public EntityModel<RelationOutDTO> toModel(RelationOutDTO relation) {
         return EntityModel.of(relation,

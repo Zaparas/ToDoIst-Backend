@@ -15,6 +15,11 @@ public class RelationCreateServiceImpl implements RelationCreateService {
     @Autowired
     private RelationConvertToEntityService relationConvertToEntityService;
 
+    /**
+     * This method converts a RelationInDTO to a relation object and then saves it using relationRepository
+     * @param relationInDTO the object to be saved
+     * @return A RelationOutDTO based on the object saved
+     */
     @Override
     public RelationOutDTO createRelation(RelationInDTO relationInDTO) {
         return new RelationOutDTO(relationRepository.save(relationConvertToEntityService.convertToEntity(relationInDTO)));

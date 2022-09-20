@@ -18,6 +18,13 @@ public class RelationUpdateServiceImpl implements RelationUpdateService {
     @Autowired
     private RelationRepository relationRepository;
 
+    /**
+     * This method updates the values of the properties of a specific entry in the RelationRepository using the
+     * target id as a reference point
+     * @param id the id of the target object ot be overwritten
+     * @param relationInDTO an object with the values to be passed as input to target object
+     * @return A relationOutDTO based on the updated version of the target object
+     */
     @Override
     public RelationOutDTO updateService(UUID id, RelationInDTO relationInDTO) {
         Optional<Relation> optional = relationRepository.findById(id);

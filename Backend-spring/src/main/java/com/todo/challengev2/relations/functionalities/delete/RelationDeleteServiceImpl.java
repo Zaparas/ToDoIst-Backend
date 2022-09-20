@@ -13,8 +13,12 @@ public class RelationDeleteServiceImpl implements RelationDeleteService{
     @Autowired
     private RelationRepository relationRepository;
 
+    /**
+     * Attempts to delete the Relaion object with the target Id from the RelationRepository
+     * @param id the id of the target object to be deleted
+     */
     @Override
     public void deleteRelation(UUID id) {
-        relationRepository.delete(relationRepository.findById(id).get());
+        if (relationRepository.findById(id).isPresent()) relationRepository.delete(relationRepository.findById(id).get());
     }
 }

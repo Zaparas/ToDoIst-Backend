@@ -10,7 +10,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 public class RelationOutDTO {
-
     private UUID id;
     private RelationType relationType;
     private UUID parentID;

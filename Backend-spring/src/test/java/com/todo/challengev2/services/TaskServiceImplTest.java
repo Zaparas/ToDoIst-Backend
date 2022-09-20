@@ -1,6 +1,12 @@
 package com.todo.challengev2.services;
 
 import com.todo.challengev2.tasks.Task;
+import com.todo.challengev2.tasks.functionalities.convertToEntity.TaskConvertToEntityServiceImpl;
+import com.todo.challengev2.tasks.functionalities.create.TaskCreateService;
+import com.todo.challengev2.tasks.functionalities.create.TaskCreateServiceImpl;
+import com.todo.challengev2.tasks.functionalities.get.TaskGetByIdService;
+import com.todo.challengev2.tasks.functionalities.get.TaskGetByIdServiceImpl;
+import com.todo.challengev2.tasks.functionalities.list.TaskListServiceImpl;
 import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.functionalities.TaskRepository;
@@ -23,8 +29,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TaskServiceImplTest {
 
+
     @InjectMocks
-    TaskServiceImpl service;
+    TaskConvertToEntityServiceImpl convertService;
+    @InjectMocks
+    TaskListServiceImpl listService;
+    @InjectMocks
+    TaskGetByIdServiceImpl getByIdService;
+    @InjectMocks
+    TaskCreateServiceImpl taskCreateService;
 
     @Mock
     TaskRepository repo;
@@ -35,7 +48,7 @@ class TaskServiceImplTest {
         Task task = new Task("jumps test", LocalDate.now().plusDays(1),LOW,"desc");
         TaskInDTO in = new TaskInDTO(new TaskOutDTO(task));
 
-        Task res = service.convertToEntity(in);
+        Task res = convertService.convertToEntity(in);
 
         assertEquals(res.getName(),in.getName());
         assertEquals(res.getDueDate(),in.getDueDate());
@@ -54,7 +67,7 @@ class TaskServiceImplTest {
 
         Mockito.doReturn(listData).when(repo).findAll();
 
-        listRes = service.getAllTasks();
+        listRes = listService.list();
 
         assertEquals(3,listRes.size());
         verify(repo, times(1)).findAll();
@@ -70,7 +83,7 @@ class TaskServiceImplTest {
 
         Mockito.doReturn(Optional.of(in)).when(repo).findById(in.getId());
 
-        TaskOutDTO res = service.getById(in.getId());
+        TaskOutDTO res = getByIdService.get(in.getId());
 
         verify(repo, times(1)).findById(in.getId());
 
@@ -90,7 +103,7 @@ class TaskServiceImplTest {
 
         Mockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(repo).findById(target);
 
-        assertThrows(ResponseStatusException.class,() ->service.getById(target));
+        assertThrows(ResponseStatusException.class,() ->getByIdService.get(target));
         verify(repo, times(1)).findById(target);
     }
 
@@ -108,7 +121,7 @@ class TaskServiceImplTest {
 //        Mockito.doReturn(taskIn).when(repo).save(taskIn); // TODO fix This creates a conflict cause it says mapping
 //         already exists
 
-        TaskOutDTO result = service.createTask(pre);
+        TaskOutDTO result = taskCreateService.createTask(pre);
 
 //        verify(repo, times(1)).save(service.convertToEntity(pre)); // TODO fix Verifying times run creates an error,
 //         about miss-matched input with a blank space after the object
