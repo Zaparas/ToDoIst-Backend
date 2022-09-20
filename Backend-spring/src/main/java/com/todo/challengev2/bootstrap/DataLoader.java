@@ -1,12 +1,12 @@
 package com.todo.challengev2.bootstrap;
 
 
-import com.todo.challengev2.config.util.PriorityType;
-import com.todo.challengev2.config.util.RelationType;
-import com.todo.challengev2.domain.Relation;
-import com.todo.challengev2.domain.Task;
-import com.todo.challengev2.repositories.TaskRepository;
-import com.todo.challengev2.services.TaskService;
+import com.todo.challengev2.tasks.utils.enums.PriorityType;
+import com.todo.challengev2.relations.utils.enums.RelationType;
+import com.todo.challengev2.relations.Relation;
+import com.todo.challengev2.tasks.Task;
+import com.todo.challengev2.tasks.functionalities.TaskRepository;
+import com.todo.challengev2.tasks.functionalities.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @Slf4j

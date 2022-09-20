@@ -1,9 +1,10 @@
 package com.todo.challengev2.services;
 
-import com.todo.challengev2.domain.Task;
-import com.todo.challengev2.dto.TaskInDTO;
-import com.todo.challengev2.dto.TaskOutDTO;
-import com.todo.challengev2.repositories.TaskRepository;
+import com.todo.challengev2.tasks.Task;
+import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
+import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
+import com.todo.challengev2.tasks.functionalities.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.*;
 
-import static com.todo.challengev2.config.util.PriorityType.*;
+import static com.todo.challengev2.tasks.utils.enums.PriorityType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
