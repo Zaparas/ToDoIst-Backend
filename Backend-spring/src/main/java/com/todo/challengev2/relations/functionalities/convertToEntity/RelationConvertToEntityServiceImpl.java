@@ -15,6 +15,11 @@ import java.util.Optional;
 @Service
 public class RelationConvertToEntityServiceImpl implements RelationConvertToEntityService {
 
+    /**
+     * Converts a RelationInDTO to a relation object
+     * @param relationInDTO the target object to be converted
+     * @return a relation object based on the input
+     */
     @Autowired
     private TaskRepository taskRepository;
 

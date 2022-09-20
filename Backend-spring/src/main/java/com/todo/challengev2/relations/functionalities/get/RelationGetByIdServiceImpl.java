@@ -17,6 +17,11 @@ public class RelationGetByIdServiceImpl implements RelationGetByIdService{
     @Autowired
     private RelationRepository relationRepository;
 
+    /**
+     * This method recovers a relation using thee target id as a reference point, in RelationOutDTO format/object
+     * @param id the target id to be searched for
+     * @return A RelationOutDTO object based on the target Relation
+     */
     @Override
     public RelationOutDTO get(UUID id) {
         Optional<Relation> optional = relationRepository.findById(id);

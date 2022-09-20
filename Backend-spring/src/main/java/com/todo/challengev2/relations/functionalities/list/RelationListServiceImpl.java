@@ -15,6 +15,11 @@ public class RelationListServiceImpl implements RelationListService{
     @Autowired
     private RelationRepository relationRepository;
 
+    /**
+     * This method returns a list of RelationOutDTO objects based the Relation objects currently stored in the
+     * RelationRepository
+     * @return List of all Relation object in the RelationRepository as RelationOutDTO objects
+     */
     @Override
     public List<RelationOutDTO> list() {
         List<RelationOutDTO> list = new ArrayList<>();
