@@ -17,15 +17,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/**
+ * This class implements a controller, creating an end-point for updateTask() Task service method.
+ */
 @RequestMapping("/tasks")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TaskUpdateController {
 
+    /**
+     * Imports Task Service to Controller.
+     */
     public final TaskServiceImpl taskService;
+
+    /**
+     * Imports Model Assembler to Controller.
+     */
     private final TaskModelAssembler taskModelAssembler;
 
+    /**
+     * This method implements a Put Request, using updateTask() service method.
+     * @param newTask, a TaskInDTO with the data that we want to update in the database.
+     * @param id, the requested ID of the Entity that we want to update.
+     * @return a TaskOutDTO with the updated Entity.
+     */
     @Operation(summary = "Update the fields of an existing Task", tags = {"Tasks","Update"})
     @ApiResponses({
             @ApiResponse(description = "updated an existing Task", responseCode = "200", content = @Content)

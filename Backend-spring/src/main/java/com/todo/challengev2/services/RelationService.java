@@ -12,12 +12,4 @@ public interface RelationService {
     Relation convertToEntity(RelationInDTO relationInDTO);
 
     List<RelationOutDTO> list();
-
-    RelationOutDTO get(UUID id);
-
-    RelationOutDTO create(RelationInDTO relationInDTO);
-
-    RelationOutDTO update(RelationInDTO relationInDTO, UUID id);
-
-    void delete(UUID id);
 }

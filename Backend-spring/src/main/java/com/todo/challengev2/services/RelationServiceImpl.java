@@ -15,12 +15,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Implements Service Interface, includes the CRUD methods for Relation Entity.
+ */
 @Service
 public class RelationServiceImpl implements RelationService{
 
+    /**
+     * Imports JPA repository
+     */
     @Autowired
     private RelationRepository relationRepository;
 
+    /**
+     * This method converts our input DTO (RelationInDTO) to an Entity, so we can use it on JPA's methods.
+     * @param relationInDTO
+     * @return
+     */
     @Override
     public Relation convertToEntity(RelationInDTO relationInDTO) {
         Relation target = new Relation();
@@ -28,6 +39,10 @@ public class RelationServiceImpl implements RelationService{
         return target;
     }
 
+    /**
+     * This method converts to RelationOutDTO and fetches all the relations, stored in our database.
+     * @return
+     */
     @Override
     public List<RelationOutDTO> list() {
         List<RelationOutDTO> list = new ArrayList<>();
