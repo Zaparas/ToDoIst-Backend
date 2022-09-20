@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {
 
+    // TODO question mark is marked as an error by intellij? 20/09/2022
     @Query("SELECT t FROM Task t WHERE t.id LIKE CONCAT(?#{#args.id}, '%') " +
             "OR t.name LIKE CONCAT(?#{#args.name}, '%') " +
             "OR t.priority = ?#{#args.priority} " +
