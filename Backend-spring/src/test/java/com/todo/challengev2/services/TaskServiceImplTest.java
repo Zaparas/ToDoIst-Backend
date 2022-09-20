@@ -1,7 +1,6 @@
 package com.todo.challengev2.services;
 
 import com.todo.challengev2.tasks.Task;
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.functionalities.TaskRepository;

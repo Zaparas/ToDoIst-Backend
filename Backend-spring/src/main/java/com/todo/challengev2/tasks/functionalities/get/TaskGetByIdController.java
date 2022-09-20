@@ -2,7 +2,6 @@ package com.todo.challengev2.tasks.functionalities.get;
 
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +30,7 @@ public class TaskGetByIdController {
     /**
      * Imports Task Service to Controller.
      */
-    public final TaskServiceImpl taskService;
+    public final TaskGetByIdService taskGetByIdService;
     /**
      * Imports Model Assembler to Controller.
      */
@@ -51,7 +50,7 @@ public class TaskGetByIdController {
     })
     @GetMapping("/{id}")
     public EntityModel<TaskOutDTO> getTask(@PathVariable UUID id) {
-        TaskOutDTO result = taskService.getById(id);
+        TaskOutDTO result = taskGetByIdService.get(id);
         if (result==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 "Relation with id: <" + id + "> not found. Get by id failed");
         return taskModelAssembler.toModel(result);

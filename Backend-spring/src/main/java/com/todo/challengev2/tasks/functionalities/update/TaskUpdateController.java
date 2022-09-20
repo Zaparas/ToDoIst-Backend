@@ -3,7 +3,6 @@ package com.todo.challengev2.tasks.functionalities.update;
 import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,7 +28,7 @@ public class TaskUpdateController {
     /**
      * Imports Task Service to Controller.
      */
-    public final TaskServiceImpl taskService;
+    public final TaskUpdateService taskUpdateService;
 
     /**
      * Imports Model Assembler to Controller.
@@ -38,7 +37,7 @@ public class TaskUpdateController {
 
     /**
      * This method implements a Put Request, using updateTask() service method.
-     * @param newTask, a TaskInDTO with the data that we want to update in the database.
+     * @param taskInDTO, a TaskInDTO with the data that we want to update in the database.
      * @param id, the requested ID of the Entity that we want to update.
      * @return a TaskOutDTO with the updated Entity.
      */
@@ -49,9 +48,9 @@ public class TaskUpdateController {
             //,@ApiResponse(description = "no content", responseCode = "204", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@RequestBody TaskInDTO newTask, @PathVariable UUID id) {
+    public ResponseEntity<?> updateTask(@RequestBody TaskInDTO taskInDTO, @PathVariable UUID id) {
         try {
-            TaskOutDTO updatedTask = taskService.updateTask(newTask, id);
+            TaskOutDTO updatedTask = taskUpdateService.updateTask(id, taskInDTO);
             EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(updatedTask);
             return ResponseEntity
                     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

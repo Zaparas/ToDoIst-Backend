@@ -3,7 +3,6 @@ package com.todo.challengev2.tasks.functionalities.search;
 import com.todo.challengev2.tasks.utils.dtos.TaskIndexDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
-import com.todo.challengev2.tasks.functionalities.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +30,7 @@ public class TaskSearchController {
     /**
      * Imports Task Service to Controller.
      */
-    private final TaskService taskService;
+    private final TaskSearchService taskSearchService;
 
     /**
      * Imports Model Assembler to Controller.
@@ -50,7 +49,7 @@ public class TaskSearchController {
     })
     @GetMapping("/search")
     public CollectionModel<EntityModel<TaskOutDTO>> search(@RequestBody TaskIndexDTO taskIndexDTO) {
-        List<EntityModel<TaskOutDTO>> tasks = taskService.searchTask(taskIndexDTO).stream()
+        List<EntityModel<TaskOutDTO>> tasks = taskSearchService.searchTask(taskIndexDTO).stream()
                 .map(taskModelAssembler :: toModel)
                 .collect(Collectors.toList());
 

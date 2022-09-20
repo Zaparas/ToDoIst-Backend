@@ -3,7 +3,6 @@ package com.todo.challengev2.tasks.functionalities.create;
 import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +26,7 @@ public class TaskCreateController {
     /**
      * Imports Task Service to Controller.
      */
-    public final TaskServiceImpl taskService;
+    public final TaskCreateService taskCreateService;
     /**
      * Imports Model Assembler to Controller.
      */
@@ -45,7 +44,7 @@ public class TaskCreateController {
     })
     @PostMapping()
     public ResponseEntity<EntityModel<TaskOutDTO>> createTask(@RequestBody TaskInDTO taskInDTO) {
-        EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(taskService.createTask(taskInDTO));
+        EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(taskCreateService.createTask(taskInDTO));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

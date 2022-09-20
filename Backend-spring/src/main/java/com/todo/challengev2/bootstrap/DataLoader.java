@@ -1,12 +1,12 @@
 package com.todo.challengev2.bootstrap;
 
 
+import com.todo.challengev2.tasks.functionalities.list.TaskListService;
 import com.todo.challengev2.tasks.utils.enums.PriorityType;
 import com.todo.challengev2.relations.utils.enums.RelationType;
 import com.todo.challengev2.relations.Relation;
 import com.todo.challengev2.tasks.Task;
 import com.todo.challengev2.tasks.functionalities.TaskRepository;
-import com.todo.challengev2.tasks.functionalities.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,11 +21,11 @@ import java.util.Arrays;
 public class DataLoader {
 
     @Autowired
-    private TaskService service;
+    private TaskListService taskListService;
     @Bean
     CommandLineRunner initDatabase(TaskRepository repository){
 
-        if (service.getAllTasks().isEmpty()) {
+        if (taskListService.list().isEmpty()) {
             return args -> {
                 Task taskCode = repository.save(new Task(
                         "Code",
@@ -49,9 +49,9 @@ public class DataLoader {
                         PriorityType.LOW,
                         "Some something here",
                         Arrays.asList(new Relation(RelationType.DEPENDENT, taskCode))));
-                log.info("Number of total entries is: #" + service.getAllTasks().size());
+                log.info("Number of total entries is: #" + taskListService.list().size());
             };
         }
-        return args -> log.info("Database already initialized. Number of total entries is: #" + service.getAllTasks().size());
+        return args -> log.info("Database already initialized. Number of total entries is: #" + taskListService.list().size());
     }
 }

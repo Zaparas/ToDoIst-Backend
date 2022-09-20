@@ -2,7 +2,6 @@ package com.todo.challengev2.tasks.functionalities.list;
 
 import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,7 +32,7 @@ public class TaskListController {
     /**
      * Imports Task Service to Controller.
      */
-    public final TaskServiceImpl taskService;
+    public final TaskListService taskListService;
     /**
      * Imports Model Assembler to Controller.
      */
@@ -51,7 +50,7 @@ public class TaskListController {
     })
     @GetMapping
     public CollectionModel<EntityModel<TaskOutDTO>> list() {
-        List<EntityModel<TaskOutDTO>> tasks = taskService.getAllTasks().stream()
+        List<EntityModel<TaskOutDTO>> tasks = taskListService.list().stream()
                 .map(taskModelAssembler::toModel)
                 .collect(Collectors.toList());
 

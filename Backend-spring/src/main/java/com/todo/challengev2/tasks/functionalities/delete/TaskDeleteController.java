@@ -1,6 +1,5 @@
 package com.todo.challengev2.tasks.functionalities.delete;
 
-import com.todo.challengev2.tasks.functionalities.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +25,7 @@ public class TaskDeleteController {
     /**
      * Imports Model Assembler to Controller.
      */
-    private final TaskServiceImpl taskService;
+    private final TaskDeleteService taskDeleteService;
 
     /**
      * This method implements a Delete Request, using deleteTask() service method.
@@ -42,7 +41,7 @@ public class TaskDeleteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable UUID id) {
         try {
-            taskService.deleteTask(id);
+            taskDeleteService.deleteTask(id);
             return ResponseEntity.ok().build();
         }
         catch (Exception exception){
