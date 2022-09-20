@@ -1,11 +1,11 @@
 package com.todo.challengev2.relations.functionalities.delete;
 
-import com.todo.challengev2.relations.functionalities.RelationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +18,8 @@ import java.util.UUID;
 @RequestMapping("/relations")
 public class RelationDeleteController {
 
-    private final RelationServiceImpl relationService;
-
+    @Autowired
+    private RelationDeleteService relationDeleteService;
 
     /**
      *  This method maps the delete requests to the delete method of RelationServiceImpl.
@@ -36,7 +36,7 @@ public class RelationDeleteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         try{
-            relationService.delete(id);
+            relationDeleteService.deleteRelation(id);
             return ResponseEntity.ok().build();
         }
         catch (Exception exception){

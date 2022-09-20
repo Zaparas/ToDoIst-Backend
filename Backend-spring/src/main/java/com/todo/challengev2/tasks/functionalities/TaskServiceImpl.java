@@ -1,6 +1,6 @@
 package com.todo.challengev2.tasks.functionalities;
 
-import com.todo.challengev2.relations.functionalities.RelationService;
+import com.todo.challengev2.relations.functionalities.convertToEntity.RelationConvertToEntityService;
 import com.todo.challengev2.tasks.Task;
 import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
 import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
     /**
      * Imports RelationService
      */
-    private final RelationService relationService;
+    private final RelationConvertToEntityService relationConvertToEntityService;
 
     /**
      * This method converts our input DTO (TaskInDTO) to an Entity, so we can use it on JPA's methods.
@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
         BeanUtils.copyProperties(taskInDTO, task);
         if (taskInDTO.getRelations() != null) {
             for (RelationInDTO relationInDTO : taskInDTO.getRelations()) {
-                task.getRelations().add(relationService.convertToEntity(relationInDTO));
+                task.getRelations().add(relationConvertToEntityService.convertToEntity(relationInDTO));
             }
         }
         return task;

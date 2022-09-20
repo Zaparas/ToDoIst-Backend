@@ -3,7 +3,6 @@ package com.todo.challengev2.relations.functionalities.create;
 import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
 import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
-import com.todo.challengev2.relations.functionalities.RelationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RelationCreateController {
 
-    private RelationServiceImpl relationService;
+    private RelationCreateService relationCreateService;
     private final RelationModelAssembler relationModelAssembler;
 
     /**
@@ -34,7 +33,8 @@ public class RelationCreateController {
     })
     @PostMapping
     public ResponseEntity<EntityModel<RelationOutDTO>> create(@RequestBody RelationInDTO relationInDTO) {
-        EntityModel<RelationOutDTO> entityModel = relationModelAssembler.toModel(relationService.create(relationInDTO));
+        EntityModel<RelationOutDTO> entityModel =
+                relationModelAssembler.toModel(relationCreateService.createRelation(relationInDTO));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

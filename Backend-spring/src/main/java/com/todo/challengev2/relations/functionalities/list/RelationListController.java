@@ -2,6 +2,7 @@ package com.todo.challengev2.relations.functionalities.list;
 
 import com.todo.challengev2.relations.Relation;
 import com.todo.challengev2.relations.functionalities.RelationRepository;
+import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +19,7 @@ import java.util.List;
 public class RelationListController {
 
     @Autowired
-    private RelationRepository relationRepository;
+    private RelationListService relationListService;
 
     @Operation(summary = "Gets a list with all currently stored relations",tags = {"Relations","List"})
     @ApiResponses({
@@ -26,11 +27,7 @@ public class RelationListController {
             @Content(mediaType = "ListOfAllRelations/json"))
     })
     @GetMapping
-    public List<Relation> list() {
-        List<Relation> result = relationRepository.findAll();
-        if (result.isEmpty()) {
-            return null;
-        }
-        return result;
+    public List<RelationOutDTO> list() {
+        return relationListService.list();
     }
 }

@@ -3,7 +3,6 @@ package com.todo.challengev2.relations.functionalities.update;
 import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
 import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
-import com.todo.challengev2.relations.functionalities.RelationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RelationUpdateController {
 
-    private RelationServiceImpl relationService;
+    private RelationUpdateService relationUpdateService;
     private RelationModelAssembler relationModelAssembler;
 
     /**
@@ -39,7 +38,7 @@ public class RelationUpdateController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody RelationInDTO relationInDTO, @PathVariable UUID id) {
         try {
-            RelationOutDTO updatedRelation = relationService.update(relationInDTO, id);
+            RelationOutDTO updatedRelation = relationUpdateService.updateService(id, relationInDTO);
             EntityModel<RelationOutDTO> entityModel = relationModelAssembler.toModel(updatedRelation);
             return ResponseEntity
                     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
