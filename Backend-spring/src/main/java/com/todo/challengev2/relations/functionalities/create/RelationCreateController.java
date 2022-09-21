@@ -1,7 +1,7 @@
 package com.todo.challengev2.relations.functionalities.create;
 
-import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationRestrictedDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,8 +32,8 @@ public class RelationCreateController {
                     content = @Content(mediaType = "link"))
     })
     @PostMapping
-    public ResponseEntity<EntityModel<RelationOutDTO>> create(@RequestBody RelationInDTO relationInDTO) {
-        EntityModel<RelationOutDTO> entityModel =
+    public ResponseEntity<EntityModel<RelationFullDTO>> create(@RequestBody RelationRestrictedDTO relationInDTO) {
+        EntityModel<RelationFullDTO> entityModel =
                 relationModelAssembler.toModel(relationCreateService.createRelation(relationInDTO));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

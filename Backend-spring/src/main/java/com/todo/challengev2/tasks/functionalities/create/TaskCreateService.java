@@ -1,9 +1,9 @@
 package com.todo.challengev2.tasks.functionalities.create;
 
-import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
-import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskRestrictedDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskFullDTO;
 
 public interface TaskCreateService {
 
-    TaskOutDTO createTask(TaskInDTO taskInDTO);
+    TaskFullDTO createTask(TaskRestrictedDTO taskRestrictedDTO);
 }

@@ -9,16 +9,16 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-public class RelationOutDTO {
+public class RelationFullDTO {
     private UUID id;
     private RelationType relationType;
-    private UUID parentID;
+    private UUID taskId;
     private String parentName;
 
-    public RelationOutDTO(Relation relation) {
+    public RelationFullDTO(Relation relation) {
         this.id = relation.getId();
         this.relationType = relation.getRelationType();
-        this.parentID = relation.getTask().getId();
+        this.taskId = relation.getTask().getId();
         this.parentName = relation.getTask().getName();
     }
 }

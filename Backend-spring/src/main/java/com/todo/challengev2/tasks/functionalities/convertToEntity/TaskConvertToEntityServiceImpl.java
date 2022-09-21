@@ -1,9 +1,11 @@
 package com.todo.challengev2.tasks.functionalities.convertToEntity;
 
 import com.todo.challengev2.relations.functionalities.convertToEntity.RelationConvertToEntityService;
-import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationRestrictedDTO;
 import com.todo.challengev2.tasks.Task;
-import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskFullDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskRestrictedDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,24 @@ public class TaskConvertToEntityServiceImpl implements TaskConvertToEntityServic
     private RelationConvertToEntityService relationConvertToEntityService;
 
     @Override
-    public Task convertToEntity(TaskInDTO taskInDTO) {
+    public Task convertToEntity(TaskFullDTO taskFullDTO) {
         Task task = new Task();
-        BeanUtils.copyProperties(taskInDTO, task);
-        if (taskInDTO.getRelations() != null) {
-            for (RelationInDTO relationInDTO : taskInDTO.getRelations()) {
-                task.getRelations().add(relationConvertToEntityService.convertToEntity(relationInDTO));
+        BeanUtils.copyProperties(taskFullDTO, task);
+        if (taskFullDTO.getRelations() != null) {
+            for (RelationFullDTO relationFullDTO : taskFullDTO.getRelations()) {
+                task.getRelations().add(relationConvertToEntityService.convertToEntity(relationFullDTO));
+            }
+        }
+        return task;
+    }
+
+    @Override
+    public Task convertToEntity(TaskRestrictedDTO taskRestrictedDTO) {
+        Task task = new Task();
+        BeanUtils.copyProperties(taskRestrictedDTO, task);
+        if (taskRestrictedDTO.getRelations() != null) {
+            for (RelationRestrictedDTO relationRestrictedDTO : taskRestrictedDTO.getRelations()) {
+                task.getRelations().add(relationConvertToEntityService.convertToEntity(relationRestrictedDTO));
             }
         }
         return task;

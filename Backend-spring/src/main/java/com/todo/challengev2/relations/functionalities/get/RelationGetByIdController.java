@@ -1,6 +1,6 @@
 package com.todo.challengev2.relations.functionalities.get;
 
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,9 +40,9 @@ public class RelationGetByIdController {
             @Content)
     })
     @GetMapping("/{id}")
-    public EntityModel<RelationOutDTO> get(@PathVariable UUID id) {
+    public EntityModel<RelationFullDTO> get(@PathVariable UUID id) {
 
-        RelationOutDTO result = relationGetByIdService.get(id);
+        RelationFullDTO result = relationGetByIdService.get(id);
         if (result ==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 "Relation with id: <" + id + "> not found. Get by id failed");
         return relationModelAssembler.toModel(result);

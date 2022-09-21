@@ -2,13 +2,11 @@ package com.todo.challengev2.services;
 
 import com.todo.challengev2.tasks.Task;
 import com.todo.challengev2.tasks.functionalities.convertToEntity.TaskConvertToEntityServiceImpl;
-import com.todo.challengev2.tasks.functionalities.create.TaskCreateService;
 import com.todo.challengev2.tasks.functionalities.create.TaskCreateServiceImpl;
-import com.todo.challengev2.tasks.functionalities.get.TaskGetByIdService;
 import com.todo.challengev2.tasks.functionalities.get.TaskGetByIdServiceImpl;
 import com.todo.challengev2.tasks.functionalities.list.TaskListServiceImpl;
-import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
-import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskRestrictedDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskFullDTO;
 import com.todo.challengev2.tasks.functionalities.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +44,7 @@ class TaskServiceImplTest {
     void convertToEntity() {
 
         Task task = new Task("jumps test", LocalDate.now().plusDays(1),LOW,"desc");
-        TaskInDTO in = new TaskInDTO(new TaskOutDTO(task));
+        TaskRestrictedDTO in = new TaskRestrictedDTO(new TaskFullDTO(task));
 
         Task res = convertService.convertToEntity(in);
 
@@ -58,7 +56,7 @@ class TaskServiceImplTest {
     @Test
     void getAllTasks() {
 
-        List<TaskOutDTO> listRes;
+        List<TaskFullDTO> listRes;
         List<Task> listData = new ArrayList<>();
 
         listData.add(new Task("clean test", LocalDate.now(),HIGH,"desc"));
@@ -83,7 +81,7 @@ class TaskServiceImplTest {
 
         Mockito.doReturn(Optional.of(in)).when(repo).findById(in.getId());
 
-        TaskOutDTO res = getByIdService.get(in.getId());
+        TaskFullDTO res = getByIdService.get(in.getId());
 
         verify(repo, times(1)).findById(in.getId());
 
@@ -115,13 +113,13 @@ class TaskServiceImplTest {
 
         Task taskIn = new Task("jumps test", LocalDate.now().plusDays(1),LOW,"desc");
 
-        TaskInDTO pre = new TaskInDTO(new TaskOutDTO(taskIn));
+        TaskRestrictedDTO pre = new TaskRestrictedDTO(new TaskFullDTO(taskIn));
 
 
 //        Mockito.doReturn(taskIn).when(repo).save(taskIn); // TODO fix This creates a conflict cause it says mapping
 //         already exists
 
-        TaskOutDTO result = taskCreateService.createTask(pre);
+        TaskFullDTO result = taskCreateService.createTask(pre);
 
 //        verify(repo, times(1)).save(service.convertToEntity(pre)); // TODO fix Verifying times run creates an error,
 //         about miss-matched input with a blank space after the object

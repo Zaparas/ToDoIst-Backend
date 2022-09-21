@@ -2,8 +2,8 @@ package com.todo.challengev2.relations.functionalities.update;
 
 import com.todo.challengev2.relations.Relation;
 import com.todo.challengev2.relations.functionalities.RelationRepository;
-import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationRestrictedDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,10 +26,10 @@ public class RelationUpdateServiceImpl implements RelationUpdateService {
      * @return A relationOutDTO based on the updated version of the target object
      */
     @Override
-    public RelationOutDTO updateService(UUID id, RelationInDTO relationInDTO) {
+    public RelationFullDTO updateService(UUID id, RelationRestrictedDTO relationInDTO) {
         Optional<Relation> optional = relationRepository.findById(id);
         if(optional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 "Relation with id: <" + id + "> not found. Update Failed.");
-        return new RelationOutDTO(optional.get());
+        return new RelationFullDTO(optional.get());
     }
 }

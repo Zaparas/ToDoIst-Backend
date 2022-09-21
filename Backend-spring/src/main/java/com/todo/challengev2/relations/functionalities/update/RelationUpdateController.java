@@ -1,7 +1,7 @@
 package com.todo.challengev2.relations.functionalities.update;
 
-import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationRestrictedDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,10 +36,10 @@ public class RelationUpdateController {
             //,@ApiResponse(description = "no content", responseCode = "204", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody RelationInDTO relationInDTO, @PathVariable UUID id) {
+    public ResponseEntity<?> update(@RequestBody RelationRestrictedDTO relationInDTO, @PathVariable UUID id) {
         try {
-            RelationOutDTO updatedRelation = relationUpdateService.updateService(id, relationInDTO);
-            EntityModel<RelationOutDTO> entityModel = relationModelAssembler.toModel(updatedRelation);
+            RelationFullDTO updatedRelation = relationUpdateService.updateService(id, relationInDTO);
+            EntityModel<RelationFullDTO> entityModel = relationModelAssembler.toModel(updatedRelation);
             return ResponseEntity
                     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                     .body(entityModel);

@@ -1,7 +1,7 @@
 package com.todo.challengev2.tasks.functionalities.create;
 
-import com.todo.challengev2.tasks.utils.dtos.TaskInDTO;
-import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskRestrictedDTO;
+import com.todo.challengev2.tasks.utils.dtos.TaskFullDTO;
 import com.todo.challengev2.tasks.utils.models.TaskModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,7 +34,7 @@ public class TaskCreateController {
 
     /**
      * This method implements a Post Request, using createTask() service method.
-     * @param taskInDTO, a DTO including the fields of Task that we want to save on our database.
+     * @param taskRestrictedDTO, a DTO including the fields of Task that we want to save on our database.
      * @return a new TaskOutDTO, of created Entity.
      */
     @Operation(summary = "Stores a new taskInDTO in the database", tags = {"Tasks","Create"})
@@ -43,8 +43,8 @@ public class TaskCreateController {
                     "link"))
     })
     @PostMapping()
-    public ResponseEntity<EntityModel<TaskOutDTO>> createTask(@RequestBody TaskInDTO taskInDTO) {
-        EntityModel<TaskOutDTO> entityModel = taskModelAssembler.toModel(taskCreateService.createTask(taskInDTO));
+    public ResponseEntity<EntityModel<TaskFullDTO>> createTask(@RequestBody TaskRestrictedDTO taskRestrictedDTO) {
+        EntityModel<TaskFullDTO> entityModel = taskModelAssembler.toModel(taskCreateService.createTask(taskRestrictedDTO));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

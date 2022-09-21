@@ -1,7 +1,7 @@
 package com.todo.challengev2.tasks.utils.dtos;
 
 import com.todo.challengev2.tasks.utils.enums.PriorityType;
-import com.todo.challengev2.relations.utils.dtos.RelationInDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationRestrictedDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,18 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TaskInDTO {
+public class TaskRestrictedDTO {
 
     private String name;
     private LocalDate dueDate;
     private PriorityType priority;
     private String description;
-    private List<RelationInDTO> relations = new ArrayList<>();
+    private List<RelationRestrictedDTO> relations = new ArrayList<>();
 
-    public TaskInDTO(TaskOutDTO taskOutDTO) {
-        this.name = taskOutDTO.getName();
-        this.dueDate = taskOutDTO.getDueDate();
-        this.priority = taskOutDTO.getPriority();
-        this.description = taskOutDTO.getDescription();
+    public TaskRestrictedDTO(TaskFullDTO taskFullDTO) {
+        this.name = taskFullDTO.getName();
+        this.dueDate = taskFullDTO.getDueDate();
+        this.priority = taskFullDTO.getPriority();
+        this.description = taskFullDTO.getDescription();
     }
 }

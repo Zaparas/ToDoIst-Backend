@@ -2,7 +2,7 @@ package com.todo.challengev2.relations.functionalities.get;
 
 import com.todo.challengev2.relations.Relation;
 import com.todo.challengev2.relations.functionalities.RelationRepository;
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ public class RelationGetByIdServiceImpl implements RelationGetByIdService{
      * @return A RelationOutDTO object based on the target Relation
      */
     @Override
-    public RelationOutDTO get(UUID id) {
+    public RelationFullDTO get(UUID id) {
         Optional<Relation> optional = relationRepository.findById(id);
         if(optional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 "Entity - Relation with id: "+id+" not found.");
-        return new RelationOutDTO(optional.get());
+        return new RelationFullDTO(optional.get());
     }
 }

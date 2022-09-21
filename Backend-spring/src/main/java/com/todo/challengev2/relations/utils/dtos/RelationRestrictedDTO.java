@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-public class RelationInDTO {
+public class RelationRestrictedDTO {
 
     private RelationType relationType;
 

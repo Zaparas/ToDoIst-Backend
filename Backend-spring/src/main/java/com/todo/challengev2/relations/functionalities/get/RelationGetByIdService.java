@@ -1,10 +1,10 @@
 package com.todo.challengev2.relations.functionalities.get;
 
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 
 import java.util.UUID;
 
 public interface RelationGetByIdService {
 
-    RelationOutDTO get(UUID id);
+    RelationFullDTO get(UUID id);
 }

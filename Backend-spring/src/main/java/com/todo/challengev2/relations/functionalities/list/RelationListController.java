@@ -1,10 +1,7 @@
 package com.todo.challengev2.relations.functionalities.list;
 
-import com.todo.challengev2.relations.Relation;
-import com.todo.challengev2.relations.functionalities.RelationRepository;
-import com.todo.challengev2.relations.utils.dtos.RelationOutDTO;
+import com.todo.challengev2.relations.utils.dtos.RelationFullDTO;
 import com.todo.challengev2.relations.utils.models.RelationModelAssembler;
-import com.todo.challengev2.tasks.utils.dtos.TaskOutDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,8 +34,8 @@ public class RelationListController {
             @Content(mediaType = "ListOfAllRelations/json"))
     })
     @GetMapping
-    public CollectionModel<EntityModel<RelationOutDTO>> list() {
-        List<EntityModel<RelationOutDTO>> relations = relationListService.list().stream()
+    public CollectionModel<EntityModel<RelationFullDTO>> list() {
+        List<EntityModel<RelationFullDTO>> relations = relationListService.list().stream()
                 .map(relationModelAssembler::toModel)
                 .collect(Collectors.toList());
 
